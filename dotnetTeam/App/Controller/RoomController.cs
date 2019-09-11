@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace App.Controller
 {
@@ -19,6 +20,13 @@ namespace App.Controller
 		[Route("[controller]/ToBeChecked")]
 	    public ActionResult ToBeChecked() {
 		    return View();
+	    }
+
+
+	    [Route("[controller]/Checking/{roomId}")]
+		public ActionResult Checking(int roomId)
+	    {
+		    return View(new CheckingModel(roomId));
 	    }
 
 
@@ -98,5 +106,15 @@ namespace App.Controller
             }
         }
 		*/
+	}
+
+	public class CheckingModel
+	{
+		public int RoomId { get; }
+
+		public CheckingModel(int roomId)
+		{
+			RoomId = roomId;
+		}
 	}
 }
