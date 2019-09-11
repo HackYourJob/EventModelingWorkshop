@@ -13,7 +13,7 @@ services:
     checkin:
         build: ./CheckIn
         volumes:
-        - "eventStore:/home/events"
+        - "./eventStore:/home/events"
         labels:
             - "traefik.enable=true"
             - "traefik.backend=checkin"
@@ -25,7 +25,7 @@ services:
     php:
         build: ./BookingPhp
         volumes:
-            - "eventStore:/events"
+            - "./eventStore:/events"
         labels:
             - "traefik.enable=true"
             - "traefik.backend=php"
@@ -37,7 +37,7 @@ services:
     dotnet:
         image: eventmodeling/dotnet:latest
         volumes:
-            - "eventStore:/App/DATA"
+            - "./eventStore:/App/DATA"
         labels:
             - "traefik.enable=true"
             - "traefik.backend=dotnet"
@@ -50,6 +50,3 @@ services:
 networks:
     web:
 
-volumes:
-    eventStore:
-        driver: local
