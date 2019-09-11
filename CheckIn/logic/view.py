@@ -29,8 +29,10 @@ class CheckinRoomsAvailabilityView(object):
             raise Exception('There is no room events to process')
 
         rooms = [{'id': r['id'], 'type': r['type']} for r in self.room_events]
-        bookings = [b for b in self.booking_events if b['id'] == self.booking_id]
-        if len(bookings) != 1:
-            raise Exception('There is valid booking for id: {}'.format(self.booking_id))
+        bookings = [b for b in self.booking_events if str(b['id']) == str(self.booking_id)]
+        if len(bookings) == 1:
+            raise Exception('There is no valid booking event for id: {}'.format(self.booking_id))
+        if len(bookings) > 1:
+            raise Exception('There is multiple booking events for id: {}'.format(self.booking_id))
 
         return {'rooms': rooms, 'booking': bookings[0]}

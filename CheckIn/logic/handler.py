@@ -5,9 +5,9 @@ from .constants import *
 
 class CheckinCommandHandler(object):
 
-    def __init__(self, room_id, guest_id, events=None):
+    def __init__(self, room_id, booking_id, events=None):
         self.room_id = room_id
-        self.guest_id = guest_id
+        self.booking_id = booking_id
         self.events = events or []
         if events is None:
             self._read_events()
@@ -25,12 +25,12 @@ class CheckinCommandHandler(object):
 
         # Write event file...
 
-        filename = '{}-checkin-room{}-guest{}.json'.format(int(datetime.now().timestamp() * 1000),
-                                                           self.room_id,
-                                                           self.guest_id)
+        filename = '{}-checkin-room{}-booking{}.json'.format(int(datetime.now().timestamp() * 1000),
+                                                             self.room_id,
+                                                             self.booking_id)
 
         filepath = os.path.join(os.getcwd(), 'events', filename)
         with open(filepath, 'w') as event_file:
-            event_file.write(json.dumps({'room': self.room_id, 'guest': self.guest_id}))
+            event_file.write(json.dumps({'room': self.room_id, 'booking': self.booking_id}))
 
-        return 'Guest {} checked in with room {}'.format(self.guest_id, self.room_id)
+        return 'Booking {} checked in with room {}'.format(self.booking_id, self.room_id)
