@@ -1,0 +1,9 @@
+<!doctype html>
+
+{% extends 'base.html' %}
+
+{% block container %}
+  Error: {{ exception['message'] }} (code: {{ exception['code'] }})
+{% endblock %}
+
+

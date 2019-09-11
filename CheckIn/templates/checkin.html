@@ -1,0 +1,23 @@
+<!doctype html>
+
+{% extends 'base.html' %}
+
+{% block container %}
+{% for room in rooms %}
+<div class="row">
+  <div class="col">
+    <h2>
+      Room {{room['number'] }}
+      <small>$ {{ room['price'] }}</small>
+    </h2>
+  </div>
+  <div class="col">
+    <form method="post" action="/checkin?room={{ room['number'] }}&guest={{ guest['id'] }}">
+      <button type="submit" class="btn btn-primary">Checkin {{room['number'] }}</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
