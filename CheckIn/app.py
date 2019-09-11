@@ -30,14 +30,14 @@ def index():
 def checkin():
     if request.method == 'POST':
         room_id = request.args.get('room')
-        guest_id = request.args.get('guest')
+        booking_id = request.args.get('booking')
 
         if room_id is None:
             return show_exception({'message': 'Room ID is missing'})
-        if guest_id is None:
-            return show_exception({'message': 'Guest ID is missing'})
+        if booking_id is None:
+            return show_exception({'message': 'Booking ID is missing'})
 
-        handler = CheckinCommandHandler(room_id=room_id, guest_id=guest_id)
+        handler = CheckinCommandHandler(room_id=room_id, booking_id=booking_id)
         try:
             result = handler.process()
         except Exception as e:
