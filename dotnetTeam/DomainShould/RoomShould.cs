@@ -8,7 +8,6 @@ namespace DomainShould
     public class RoomShould
     {
         private static readonly RoomId ExpectedRoomId = new RoomId("101");
-        
         private readonly FakePublisher _publisher = new FakePublisher();
 
         [Fact]
@@ -29,7 +28,6 @@ namespace DomainShould
 
             Check.That(_publisher.Events).Contains(new RoomDamageReported(ExpectedRoomId, content));
         }
-
         
         [Fact]
         public async Task RaiseRoomCleaningRequestedWhenRequestClean()
