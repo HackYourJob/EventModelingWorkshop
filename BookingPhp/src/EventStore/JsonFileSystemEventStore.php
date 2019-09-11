@@ -16,14 +16,15 @@ class JsonFileSystemEventStore implements EventStore
         }
     }
 
-    public function append(Event $event): void
+    public function append(Event $event, string $suffix): void
     {
         $result = file_put_contents(
             sprintf(
-                '%s/%s-%s.json',
+                '%s/%s-%s-%s.json',
                 $this->directory,
                 $event->getDateTime()->format('U'),
-                $event->getType()
+                $event->getType(),
+                $suffix
             ),
             json_encode($event->toJson())
         );
@@ -38,7 +39,7 @@ class JsonFileSystemEventStore implements EventStore
         $events = [];
         foreach(glob($this->directory.'/*.json') as $file) {
             $filename = basename($file, '.json');
-            [$timestamp, $type] = explode('-', $filename);
+            [$timestamp, $type, $ignoredSuffix] = explode('-', $filename);
 
 
             $events[] = Event::fromJson(

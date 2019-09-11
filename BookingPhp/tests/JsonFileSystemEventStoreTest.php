@@ -36,7 +36,7 @@ class JsonFileSystemEventStoreTest extends TestCase
             new \DateTimeImmutable()
         );
 
-        $eventStore->append($eventToAppend);
+        $eventStore->append($eventToAppend, 'suffix');
         $allEvents = $eventStore->getEvents();
 
         $this->assertEquals(
@@ -47,21 +47,39 @@ class JsonFileSystemEventStoreTest extends TestCase
         );
     }
 
-    public function _testShouldEventsBeSorted()
+    public function testShouldEventsBeSorted()
     {
-        $tmpFile = tmpfile();
-        $fileName = stream_get_meta_data($tmpFile)['uri'];
-        file_put_contents($fileName, '{}');
-
-        $eventStore = new \App\EventStore\JsonFileSystemEventStore($fileName);
+        $dir = __DIR__ . '/fixtures/AppendableStore';
+        $eventStore = new \App\EventStore\JsonFileSystemEventStore($dir);
         $eventsToAppend = [
-            new Event(['order' => 1]),
-            new Event(['order' => 2]),
-            new Event(['order' => 3]),
+            new Event(
+                'roomAdded',
+                    [
+                    'id' => 1,
+                    'type' => 'double',
+                    ],
+                $date = new \DateTimeImmutable()
+            ),
+            new Event(
+                'roomAdded',
+                [
+                    'id' => 2,
+                    'type' => 'double',
+                ],
+                $date = $date->add(new \DateInterval('P10D'))
+            ),
+            new Event(
+                'roomAdded',
+                [
+                    'id' => 3,
+                    'type' => 'king',
+                ],
+                $date = $date->add(new \DateInterval('P10D'))
+            ),
         ];
 
         foreach ($eventsToAppend as $event) {
-            $eventStore->append($event);
+            $eventStore->append($event, 'suffix');
         }
         $allEvents = $eventStore->getEvents();
 

@@ -11,7 +11,7 @@ class RoomAddedToInventory extends Event
 
     public function __construct(int $roomId, string $roomType, DateTimeImmutable $dateTime)
     {
-        parent::__construct(self::eventType.'-room'.$roomId, [
+        parent::__construct(self::eventType, [
             'id' => $roomId,
             'type' => $roomType,
         ], $dateTime);
