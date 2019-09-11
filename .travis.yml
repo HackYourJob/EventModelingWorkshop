@@ -1,0 +1,12 @@
+language: csharp
+
+services:
+  - docker
+
+branches:
+  only:
+  - master
+
+script:
+- docker build app .
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
