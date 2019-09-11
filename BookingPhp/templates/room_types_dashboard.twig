@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Room Type</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for typeData in types %}
+            <tr>
+                <form method="POST" action="{{ path('change_type_price') }}">
+                    <td>{{ typeData.type }}<input type="hidden" name="type" required value="{{ typeData.type }}"/></td>
+                    <td><input type="number" name="price" required value="{{ typeData.price }}"/></td>
+                    <td>
+                        <button type="submit">Changer le prix</button>
+                    </td>
+                </form>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}

@@ -1,0 +1,19 @@
+app_hello:
+    path: /
+    controller: App\Controller\HelloController
+
+room_inventory_dashboard:
+    path: /room-inventory
+    controller: App\Controller\RoomInventoryDashboardController
+
+create_room:
+    path: /create_room
+    controller: App\Controller\CreateRoomController
+
+change_type_price:
+    path: /change_type_price
+    controller: App\Controller\ChangeRoomTypePriceController
+
+room_types_dashboard:
+    path: /room-types
+    controller: App\Controller\RoomTypesDashboardController

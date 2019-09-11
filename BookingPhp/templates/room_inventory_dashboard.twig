@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Room ID</th>
+            <th scope="col">Room Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.id }}</td>
+                <td>{{ room.type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="POST" action="{{ path('create_room') }}">
+
+        <div class="form-group">
+            <label for="new_room_id">Room ID:&nbsp;</label>
+            <input id="new_room_id" class="form-control" type="number" name="id" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="new_room_type">Room Type:&nbsp;</label>
+            <select name="type" class="form-control" id="new_room_type" required>
+                {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Create a new room</button>
+    </form>
+{% endblock body %}
