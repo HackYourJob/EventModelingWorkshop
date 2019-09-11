@@ -26,7 +26,7 @@ namespace Domain
         {
             var typeKey = MappingEventTypeToKey[domainEvent.GetType()];
             
-            var fileName = $"{_getHorodate():yyyy-MM-dd-HH-mm-ss}-{typeKey}.json";
+            var fileName = $"{ToMsUnixTimeStamp(_getHorodate())}-{typeKey}.json";
             var payload = JsonConvert.SerializeObject(domainEvent);
             return File.WriteAllTextAsync(Path.Combine(_directory, fileName), payload);
         }
@@ -40,9 +40,15 @@ namespace Domain
         
         private static readonly IDictionary<Type, string> MappingEventTypeToKey = MappingKeyToEventType.ToDictionary(x => x.Value, x => x.Key);
 
+        private long ToMsUnixTimeStamp(DateTime horodate)
+        {
+            var _1970 = new DateTime(1970, 1 ,1);
+            return (long) horodate.Subtract(_1970).TotalMilliseconds;
+        }
+
         public Task<IDomainEvent[]> GetAggregateHistory()
         {
-            const string eventFilePattern = "(\\d{4}-\\d{2}-\\d{2}-\\d{2}-\\d{2}-\\d{2})\\-(.*).json";
+            const string eventFilePattern = "(\\d+)\\-(.*).json";
             var readFiles = Directory.EnumerateFiles(_directory)
                 .Where(filePath => Regex.IsMatch(filePath, eventFilePattern))
                 .Select(async filePath =>

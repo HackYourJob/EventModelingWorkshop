@@ -9,7 +9,7 @@ namespace Tests.EventStore
 {
     public class EventStoreShould
     {
-        private static readonly DateTime Horodate = DateTime.Now;
+        private static readonly DateTime Horodate = new DateTime(2019, 9, 11, 16, 15, 0);
         private readonly string _filesPath;
 
         public EventStoreShould()
@@ -27,7 +27,7 @@ namespace Tests.EventStore
         [Fact]
         public async Task PersistEventsInFiles()
         {
-            var fileName = $"{Horodate:yyyy-MM-dd-HH-mm-ss}-room-checked-as-ok.json";
+            var fileName = "1568218500000-room-checked-as-ok.json";
             Check.That(File.Exists(fileName)).IsFalse();
             
             var eventStore = CreateEventStore();
@@ -47,7 +47,7 @@ namespace Tests.EventStore
             var horodateEvent1 = Horodate;
             await CreateEventStore(horodateEvent1).Append(domainEvent1);
             
-            var domainEvent2 = new RoomDamageReported(new RoomId("dude"), "toto");
+            var domainEvent2 = new RoomDamageReported(new RoomId("dude"), "drawings on walls");
             var horodateEvent2 = Horodate.AddSeconds(1);
             await CreateEventStore(horodateEvent2).Append(domainEvent2);
 
