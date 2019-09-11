@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd/MM/yyyy - HH:mm:ss} %5p [%t] %c > %m%n"/>
+        </Console>
+        <File name="Hotel-back" fileName="/opt/apps/logs/Hotel-back.log" immediateFlush="true" append="true">
+            <PatternLayout pattern="%d{dd/MM/yyyy - HH:mm:ss} %5p [%t] %c > %m%n"/>
+
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="com.california.hotel" level="INFO" additivity="false">
+            <AppenderRef ref="Hotel-back"/>
+        </Logger>
+    </Loggers>
+</Configuration>

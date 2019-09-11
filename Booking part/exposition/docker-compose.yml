@@ -1,0 +1,8 @@
+hotel_booking:
+  container_name: hotel_booking
+  image: eventmodeling/booking:0.0.1-SNAPSHOT
+  restart: unless-stopped
+  ports:
+    - "12378:12378"
+  volumes:
+    - /Volumes/DATA/logs:/opt/apps/logs
