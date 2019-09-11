@@ -30,10 +30,10 @@ namespace DomainShould
         }
 
         [Fact]
-        public void RaiseRoomCleaningRequestedWhenRequestClean()
+        public async Task RaiseRoomCleaningRequestedWhenRequestClean()
         {
             var room = new Room(ExpectedRoomId);
-            room.RequestClean(_publisher);
+            await room.RequestClean(_publisher);
 
             Check.That(_publisher.Events).Contains(new RoomCleaningRequested(ExpectedRoomId));
         }

@@ -23,9 +23,9 @@ namespace Domain
             }
         }
 
-        public void RequestClean(IEventsPublisher publisher)
+        public Task RequestClean(IEventsPublisher publisher)
         {
-            publisher.Publish(new RoomCleaningRequested(_roomId));
+            return publisher.Publish(new RoomCleaningRequested(_roomId));
         }
     }
 }
