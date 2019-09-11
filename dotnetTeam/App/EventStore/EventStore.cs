@@ -36,7 +36,8 @@ namespace App.EventStore
         {
             ["room-checked-as-ok"] = typeof(RoomCheckedAsOk),
             ["room-damage-reported"] = typeof(RoomDamageReported),
-            ["room-cleaning-requested"] = typeof(RoomCleaningRequested)
+            ["room-cleaning-requested"] = typeof(RoomCleaningRequested),
+            ["guest-checked-out"] = typeof(GuestCheckedOut),
         };
         
         private static readonly IDictionary<Type, string> MappingEventTypeToKey = MappingKeyToEventType.ToDictionary(x => x.Value, x => x.Key);
