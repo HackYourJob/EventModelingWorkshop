@@ -1,0 +1,17 @@
+#booking
+  h1(data-selector='title') Your reservation
+
+  label Select your size:
+  div
+    label(for='twin') Twin
+    input#twin(type='radio' data-selector='twin' name='size' value='twin')
+    label(for='king') King
+    input#king(type='radio' data-selector='king' name='size' value='king')
+  div
+    label(for='start-date') Start date
+    input#start-date(data-selector='start-date' v-model='startDate')
+  div
+    label(for='end-date') End date
+    input#end-date(data-selector='end-date' v-model='endDate')
+  div
+    button(data-selector='pay' @click='pay') Pay $300
