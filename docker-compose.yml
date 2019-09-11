@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+    proxy:
+        image: traefik:latest
+        restart: always
+        ports:
+          - "8080:80"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./traefik.toml:/traefik.toml
+        networks:
+          - web
+    php:
+        image: eventmodeling/php:latest
+        volumes:
+            - "eventStore:/events"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=php"
+            - "traefik.docker.network=web"
+            - "traefik.frontend.rule=Path:/room-inventory,/create_room,/change_type_price,/room-types"
+            - "traefik.port=80"
+        networks:
+            - web
+
+networks:
+    web:
+
+volumes:
+    eventStore:
+        driver: local
