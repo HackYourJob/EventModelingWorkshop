@@ -1,0 +1,17 @@
+@(userForm: Form[PaymentForm])(implicit messages: Messages, request: RequestHeader)
+
+@main("Welcome to Play") {
+  
+  <h1>Please enter you credit card</h1>
+  <div>To pay :</div>
+
+
+  @helper.form(action = helper.CSRF(routes.PayController.userPost())) {
+    @helper.inputText(userForm("creditCard"))
+    @helper.inputText(userForm("id"))
+    @helper.inputText(userForm("amount"))
+    @helper.inputText(userForm("callbackUrl"))
+    
+    <button type="submit">Pay</button>
+  }
+}

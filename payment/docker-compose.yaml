@@ -1,0 +1,8 @@
+hotel_booking:
+  container_name: payment_third_party
+  image: eventmodeling/payment:1.0-SNAPSHOT
+  restart: unless-stopped
+  ports:
+    - "12344:12344"
+  volumes:
+    - /tmp/hote_paymenet_logs:/opt/apps/logs
