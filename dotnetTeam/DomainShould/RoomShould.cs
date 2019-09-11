@@ -29,6 +29,17 @@ namespace DomainShould
 
             Check.That(publisher.Events).Contains(new RoomCheckedAsKo(expectedRoomId));
         }
+
+        [Fact]
+        public void RaiseRoomCleaningRequestedWhenRequestClean()
+        {
+            var publisher = new FakePublisher();
+            var expectedRoomId = new RoomId("101");
+            var room = new Room(expectedRoomId);
+            room.RequestClean(publisher);
+
+            Check.That(publisher.Events).Contains(new RoomCleaningRequested(expectedRoomId));
+        }
     }
 
     public class FakePublisher : IEventsPublisher
