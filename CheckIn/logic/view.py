@@ -1,4 +1,5 @@
 import json
+import re
 from .constants import *
 
 
@@ -10,12 +11,12 @@ class CheckinRoomsAvailabilityView(object):
         self.room_events = room_events or []
 
         if room_events is None:
-            self._read_events(self.room_events, '-roomadded-')
+            self._read_events(self.room_events, '^[0-9]+(-roomadded-)(.+)(.json)$')
         if booking_events is None:
-            self._read_events(self.booking_events, '-booking.')
+            self._read_events(self.booking_events, '^[0-9]+(-booking.json)$')
 
-    def _read_events(self, events, key):
-        filtered_event_filenames = [f for f in os.listdir(EVENTS_DIR) if key in f.lower()]
+    def _read_events(self, events, regex):
+        filtered_event_filenames = [f for f in os.listdir(EVENTS_DIR) if re.match(regex, f.lower())]
         for event_filename in filtered_event_filenames:
             with open(os.path.join(EVENTS_DIR, event_filename), 'r') as event_file:
                 events.append(json.load(event_file))
