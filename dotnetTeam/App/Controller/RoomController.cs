@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace App.Controller
 {
@@ -18,12 +13,10 @@ namespace App.Controller
 		    _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
 	    }
 
-        // GET: Room
         public ActionResult Index()
         {
             return View();
         }
-
 
 		[Route("[controller]/ToBeChecked")]
 	    public ActionResult ToBeChecked() {
@@ -36,13 +29,22 @@ namespace App.Controller
 		    return View(new CheckingModel(roomId));
 	    }
 
-	    [Route("[controller]/CheckingDone/{roomId}/{status}")]
-	    public ActionResult CheckingDone(int roomId, RoomCheckStatus status) 
+	    [Route("[controller]/CheckingDone/{roomId}")]
+	    public ActionResult CheckingDone(int roomId) 
 		{
 		    var room = new Room(new RoomId(roomId.ToString()));
-		    room.CheckingDone(_publisher, status);
-			return View(status);
+		    room.CheckingDone(_publisher);
+			return RedirectToAction("ToBeChecked");
 	    }
+
+		[HttpPost]
+	    [Route("[controller]/ReportDamage/{roomId}")]
+	    public ActionResult ReportDamage(int roomId, string description)
+		{
+		    var room = new Room(new RoomId(roomId.ToString()));
+		    room.ReportDamage(_publisher, description);
+			return RedirectToAction("ToBeChecked");
+		}
 	}
 
 	public class CheckingModel
