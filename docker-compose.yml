@@ -36,7 +36,7 @@ services:
             - web
     dotnet:
         image: eventmodeling/dotnet:latest
-        valumes:
+        volumes:
             - "eventStore:/App/DATA"
         labels:
             - "traefik.enable=true"
