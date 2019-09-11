@@ -1,4 +1,4 @@
-package com.heiwait.tripagency.domain.cucumber;
+package com.california.hotel.domain.cucumber;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
