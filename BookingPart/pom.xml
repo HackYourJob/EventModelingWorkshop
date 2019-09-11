@@ -35,7 +35,7 @@
         <cukedoctor.version>1.2.1</cukedoctor.version>
         <cucumber.version>4.2.3</cucumber.version>
         <h2.version>1.4.197</h2.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.9.9</jackson.version>
         <java.version>1.8</java.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <junit.version>4.12</junit.version>
