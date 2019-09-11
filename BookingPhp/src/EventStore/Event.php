@@ -22,7 +22,7 @@ class Event
     {
         $this->data = $data;
         $this->type = $type;
-        $this->dateTime = $dateTime->format('U');
+        $this->dateTime = $dateTime->format('U') * 1000;
     }
 
     public function toJson(): array
@@ -48,7 +48,7 @@ class Event
      */
     public function getDateTime(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat('U', $this->dateTime);
+        return DateTimeImmutable::createFromFormat('U', intdiv($this->dateTime, 1000));
     }
 
     /**
