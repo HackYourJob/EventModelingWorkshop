@@ -10,8 +10,20 @@ services:
             - ./traefik.toml:/traefik.toml
         networks:
           - web
+    checkin:
+        build: ./CheckIn
+        volumes:
+        - "eventStore:/home/events"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=checkin"
+            - "traefik.docker.network=web"
+            - "traefik.frontend.rule=Path:/checkin"
+            - "traefik.port=5000"
+        networks:
+            - web
     php:
-        image: eventmodeling/php:latest
+        build: ./BookingPhp
         volumes:
             - "eventStore:/events"
         labels:
