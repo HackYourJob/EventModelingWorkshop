@@ -1,14 +1,14 @@
 from flask import Flask, request, session, redirect, url_for, render_template
 
-from app.handler import CheckinCommandHandler
-from app.view import CheckinRoomsAvailabilityView
+from logic.handler import CheckinCommandHandler
+from logic.view import CheckinRoomsAvailabilityView
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
-def show_checkin_page():
-    view = CheckinRoomsAvailabilityView()
+def show_checkin_page(booking_id):
+    view = CheckinRoomsAvailabilityView(booking_id=booking_id)
     try:
         context = view.check()
     except Exception as e:
@@ -33,9 +33,9 @@ def checkin():
         guest_id = request.args.get('guest')
 
         if room_id is None:
-            return show_exception({'exception': {'message': 'Room ID is missing'}})
+            return show_exception({'message': 'Room ID is missing'})
         if guest_id is None:
-            return show_exception({'exception': {'message': 'Guest ID is missing'}})
+            return show_exception({'message': 'Guest ID is missing'})
 
         handler = CheckinCommandHandler(room_id=room_id, guest_id=guest_id)
         try:
@@ -46,8 +46,8 @@ def checkin():
             return result
 
     else:
-        guest_id = request.args.get('guest')
-        if guest_id is None:
-            return show_exception({'exception': {'message': 'Guest ID is missing'}})
+        booking_id = request.args.get('booking')
+        if booking_id is None:
+            return show_exception({'message': 'Booking ID is missing'})
 
-        return show_checkin_page()
+        return show_checkin_page(booking_id)

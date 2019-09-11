@@ -25,7 +25,7 @@ class CheckinCommandHandler(object):
 
         # Write event file...
 
-        filename = '{}-Checkin-room{}-guest{}.json'.format(int(datetime.now().timestamp() * 1000),
+        filename = '{}-checkin-room{}-guest{}.json'.format(int(datetime.now().timestamp() * 1000),
                                                            self.room_id,
                                                            self.guest_id)
 

@@ -1,6 +1,6 @@
 import pytest
 
-from app import CheckinCommandHandler
+from logic import CheckinCommandHandler
 
 
 def test_no_events():
