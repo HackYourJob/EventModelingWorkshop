@@ -8,5 +8,6 @@ branches:
   - master
 
 script:
-- docker build app .
+- docker build -t eventmodeling/dotnet:latest .
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push eventmodeling/dotnet:latest
