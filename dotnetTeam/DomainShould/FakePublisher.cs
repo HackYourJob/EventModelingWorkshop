@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain;
 
 namespace DomainShould
@@ -7,9 +8,10 @@ namespace DomainShould
     {
         public IList<IDomainEvent> Events { get; } = new List<IDomainEvent>();
         
-        public void Publish(IDomainEvent evt)
+        public Task Publish(IDomainEvent evt)
         {
             Events.Add(evt);
+            return Task.CompletedTask;
         }
     }
 }

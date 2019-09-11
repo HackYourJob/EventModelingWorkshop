@@ -15,7 +15,7 @@ namespace DomainShould
         public async Task RaiseRoomCheckedAsOkWhenCheckingDoneOk()
         {
             var room = new Room(ExpectedRoomId);
-            room.CheckingDone(_publisher, RoomCheckStatus.Ok);
+            await room.CheckingDone(_publisher, RoomCheckStatus.Ok);
 
             Check.That(_publisher.Events).Contains(new RoomCheckedAsOk(ExpectedRoomId));
         }
@@ -24,7 +24,7 @@ namespace DomainShould
         public async Task RaiseRoomCheckedAsKoWhenCheckingDoneIsNotOk()
         {
             var room = new Room(ExpectedRoomId);
-            room.CheckingDone(_publisher, RoomCheckStatus.Ko);
+            await room.CheckingDone(_publisher, RoomCheckStatus.Ko);
 
             Check.That(_publisher.Events).Contains(new RoomCheckedAsKo(ExpectedRoomId));
         }
@@ -36,7 +36,6 @@ namespace DomainShould
             room.RequestClean(_publisher);
 
             Check.That(_publisher.Events).Contains(new RoomCleaningRequested(ExpectedRoomId));
-            return Task.CompletedTask;
         }
     }
 }
