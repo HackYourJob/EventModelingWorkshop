@@ -9,5 +9,5 @@ branches:
 
 script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
-- docker build -t eventmodeling/dotnet:latest .
+- docker build -t eventmodeling/dotnet:latest ./dotnetTeam
 - docker push eventmodeling/dotnet:latest
