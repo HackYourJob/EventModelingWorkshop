@@ -42,8 +42,10 @@ services:
             - "traefik.enable=true"
             - "traefik.backend=dotnet"
             - "traefik.docker.network=web"
-            - "traefik.frontend.rule=PathPrefix:/room/ToBeChecked,/room/Checking,/room/CheckingDone,/room/ReportDamage"
+            - "traefik.frontend.rule=PathPrefix:/room/tobechecked,/room/checking,/room/checkingdone,/room/reportdamage"
             - "traefik.port=8080"
+        networks:
+            - web
 
 networks:
     web:
