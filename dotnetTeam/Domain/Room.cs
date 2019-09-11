@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Domain
 {
     public class Room
@@ -9,15 +11,15 @@ namespace Domain
             _roomId = roomId;
         }
 
-        public void CheckingDone(IEventsPublisher publisher, RoomCheckStatus status)
+        public Task CheckingDone(IEventsPublisher publisher, RoomCheckStatus status)
         {
             if (status == RoomCheckStatus.Ok)
             {
-                publisher.Publish(new RoomCheckedAsOk(_roomId));
+                return publisher.Publish(new RoomCheckedAsOk(_roomId));
             }
             else
             {
-                publisher.Publish(new RoomCheckedAsKo(_roomId));
+                return publisher.Publish(new RoomCheckedAsKo(_roomId));
             }
         }
     }
