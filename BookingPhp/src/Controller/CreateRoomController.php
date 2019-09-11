@@ -40,7 +40,7 @@ class CreateRoomController extends AbstractController
             throw new Exception("Room #$id already exists");
         }
 
-        $this->eventStore->append(new RoomAddedToInventory($id, $type, new DateTimeImmutable()));
+        $this->eventStore->append(new RoomAddedToInventory($id, $type, new DateTimeImmutable()), "room$id");
 
         return $this->redirectToRoute('room_inventory_dashboard');
     }

@@ -36,7 +36,7 @@ class JsonFileSystemEventStoreTest extends TestCase
             new \DateTimeImmutable()
         );
 
-        $eventStore->append($eventToAppend);
+        $eventStore->append($eventToAppend, 'suffix');
         $allEvents = $eventStore->getEvents();
 
         $this->assertEquals(
@@ -79,7 +79,7 @@ class JsonFileSystemEventStoreTest extends TestCase
         ];
 
         foreach ($eventsToAppend as $event) {
-            $eventStore->append($event);
+            $eventStore->append($event, 'suffix');
         }
         $allEvents = $eventStore->getEvents();
 
