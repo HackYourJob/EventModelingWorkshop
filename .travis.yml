@@ -8,6 +8,6 @@ branches:
   - master
 
 script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
 - docker build -t eventmodeling/dotnet:latest .
-- docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" 
 - docker push eventmodeling/dotnet:latest
