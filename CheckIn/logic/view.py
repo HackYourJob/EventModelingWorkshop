@@ -10,9 +10,9 @@ class CheckinRoomsAvailabilityView(object):
         self.room_events = room_events or []
 
         if room_events is None:
-            self._read_events(self.room_events, 'roomadded')
+            self._read_events(self.room_events, '-roomadded-')
         if booking_events is None:
-            self._read_events(self.booking_events, 'booking')
+            self._read_events(self.booking_events, '-booking-')
 
     def _read_events(self, events, key):
         filtered_event_filenames = [f for f in os.listdir(EVENTS_DIR) if key in f.lower()]
