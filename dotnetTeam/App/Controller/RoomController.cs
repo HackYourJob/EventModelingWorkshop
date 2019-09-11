@@ -45,6 +45,14 @@ namespace App.Controller
 		    room.ReportDamage(_publisher, description);
 			return RedirectToAction("ToBeChecked");
 		}
+
+	    [Route("[controller]/CheckoutGuest/{roomId}")]
+		public ActionResult CheckoutGuest(int roomId)
+	    {
+		    var guest = new Guest();
+		    guest.Checkout(_publisher, new RoomId(roomId.ToString()));
+			return RedirectToAction("ToBeChecked");
+		}
 	}
 
 	public class CheckingModel
