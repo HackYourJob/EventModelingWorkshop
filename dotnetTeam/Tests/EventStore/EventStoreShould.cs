@@ -10,12 +10,17 @@ namespace Tests.EventStore
     public class EventStoreShould
     {
         private static readonly DateTime Horodate = DateTime.Now;
+        private readonly string _filesPath;
 
         public EventStoreShould()
         {
-            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), $"*room-checked-as-*.json"))
+            _filesPath = Path.Combine(Directory.GetCurrentDirectory(), "TestsEvents");
+            if (Directory.Exists(_filesPath))
             {
-                File.Delete(file);
+                foreach (var file in Directory.GetFiles(_filesPath, $"*.json"))
+                {
+                    File.Delete(file);
+                }   
             }
         }
         
@@ -29,8 +34,9 @@ namespace Tests.EventStore
             var domainEvent = new RoomCheckedAsOk(new RoomId("whatever"));
             await eventStore.Append(domainEvent);
 
-            Check.That(File.Exists(fileName)).IsTrue();
-            var fileContent = File.ReadAllText(fileName);
+            var filePath = Path.Combine(_filesPath, fileName);
+            Check.That(File.Exists(filePath)).IsTrue();
+            var fileContent = File.ReadAllText(filePath);
             Check.That(fileContent).Contains("whatever");
         }
         
@@ -53,10 +59,10 @@ namespace Tests.EventStore
             Check.That(history).ContainsExactly(domainEvent3, domainEvent1, domainEvent2);
         }
 
-        private static Domain.EventStore CreateEventStore(DateTime? horodate = null)
+        private Domain.EventStore CreateEventStore(DateTime? horodate = null)
         {
             return new Domain.EventStore(
-                Directory.GetCurrentDirectory(),
+                _filesPath,
                 () => horodate ?? Horodate);
         }
     }
