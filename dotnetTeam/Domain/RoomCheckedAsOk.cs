@@ -9,14 +9,4 @@ namespace Domain
             RoomId = roomId;
         }
     }
-
-    public struct RoomCheckedAsKo : IDomainEvent
-    {
-        public RoomCheckedAsKo(RoomId roomId)
-        {
-            RoomId = roomId;
-        }
-
-        public RoomId RoomId { get; }
-    }
 }

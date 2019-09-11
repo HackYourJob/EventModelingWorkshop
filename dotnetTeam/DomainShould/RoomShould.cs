@@ -26,7 +26,7 @@ namespace DomainShould
             var room = new Room(ExpectedRoomId);
             await room.CheckingDone(_publisher, RoomCheckStatus.Ko);
 
-            Check.That(_publisher.Events).Contains(new RoomCheckedAsKo(ExpectedRoomId));
+            Check.That(_publisher.Events).Contains(new RoomDamageReported(ExpectedRoomId, string.Empty));
         }
 
         [Fact]

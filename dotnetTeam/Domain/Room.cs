@@ -19,7 +19,7 @@ namespace Domain
             }
             else
             {
-                return publisher.Publish(new RoomCheckedAsKo(_roomId));
+                return publisher.Publish(new RoomDamageReported(_roomId, string.Empty));
             }
         }
 
