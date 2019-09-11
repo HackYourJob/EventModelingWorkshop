@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
+using Domain;
 
-namespace Domain
+namespace App.EventStore
 {
     public interface IEventStore
     {

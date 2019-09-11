@@ -59,9 +59,9 @@ namespace Tests.EventStore
             Check.That(history).ContainsExactly(domainEvent3, domainEvent1, domainEvent2);
         }
 
-        private Domain.EventStore CreateEventStore(DateTime? horodate = null)
+        private App.EventStore.EventStore CreateEventStore(DateTime? horodate = null)
         {
-            return new Domain.EventStore(
+            return new App.EventStore.EventStore(
                 _filesPath,
                 () => horodate ?? Horodate);
         }

@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Domain;
 using Newtonsoft.Json;
 
-namespace Domain
+namespace App.EventStore
 {
     public sealed class EventStore : IEventStore
     {
