@@ -6,3 +6,5 @@ packages/
 .ionide/
 .vs/
 *.user
+DATA/
+DATA/*

@@ -1,4 +1,5 @@
-﻿@model App.Controller.CheckingModel
+﻿@using Domain
+@model App.Controller.CheckingModel
 
 @{
     ViewBag.Title = "title";
@@ -7,3 +8,5 @@
 
 <h2>Checking room number @Model.RoomId</h2>
 
+<button onclick="location.href='/room/checkingdone/@Model.RoomId/@RoomCheckStatus.Ok'">OK</button>
+<button onclick="location.href='/room/checkingdone/@Model.RoomId/@RoomCheckStatus.Ko'">KO</button>
