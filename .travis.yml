@@ -3,11 +3,16 @@ language: minimal
 services:
   - docker
 
-branches:
-  only:
-  - master
+jobs:
+  include:
+  - stage: "Tests"
+  - name: "Dotnet Team"
+    script: docker build -t eventmodeling/dotnet:latest --target build ./dotnetTeam
+  - stage: "Deploy"
+  - name: "Dotnet Team"
+    if: branch = master
+    script:
+     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+     - docker build -t eventmodeling/dotnet:latest ./dotnetTeam
+     - docker push eventmodeling/dotnet:latest
 
-script:
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
-- docker build -t eventmodeling/dotnet:latest ./dotnetTeam
-- docker push eventmodeling/dotnet:latest

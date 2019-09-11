@@ -1,5 +1,8 @@
 FROM  mcr.microsoft.com/dotnet/core/sdk:2.2 as build
+WORKDIR /App
 ADD . /App
+RUN dotnet build
+RUN dotnet test
 RUN cd /App/App && dotnet publish
 
 FROM  mcr.microsoft.com/dotnet/core/aspnet:2.2
