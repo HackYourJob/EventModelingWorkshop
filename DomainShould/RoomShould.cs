@@ -12,8 +12,8 @@ namespace DomainShould
         {
             var publisher = new FakePublisher();
             var expectedRoomId = new RoomId("101");
-            var room = Room.Create();
-            room.CheckingDone(RoomCheckStatus.Ok);
+            var room = new Room(expectedRoomId);
+            room.CheckingDone(publisher, RoomCheckStatus.Ok);
 
             Check.That(publisher.Events).Contains(new RoomCheckedAsOk(expectedRoomId, RoomCheckStatus.Ok));
         }
@@ -21,6 +21,11 @@ namespace DomainShould
 
     public class FakePublisher : IEventsPublisher
     {
-        public IList<IDomainEvent> Events { get; }
+        public IList<IDomainEvent> Events { get; } = new List<IDomainEvent>();
+        
+        public void Publish(IDomainEvent evt)
+        {
+            Events.Add(evt);
+        }
     }
 }

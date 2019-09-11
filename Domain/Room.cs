@@ -2,14 +2,16 @@ namespace Domain
 {
     public class Room
     {
-        public static Room Create()
+        private readonly RoomId _roomId;
+
+        public Room(RoomId roomId)
         {
-            throw new System.NotImplementedException();
+            _roomId = roomId;
         }
 
-        public void CheckingDone(object ok)
+        public void CheckingDone(IEventsPublisher publisher, RoomCheckStatus status)
         {
-            throw new System.NotImplementedException();
+            publisher.Publish(new RoomCheckedAsOk(_roomId, status));
         }
     }
 
