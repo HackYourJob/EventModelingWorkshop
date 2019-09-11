@@ -10,6 +10,16 @@ services:
             - ./traefik.toml:/traefik.toml
         networks:
           - web
+    booking-front:
+        build: ./booking-front
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=booking-front"
+            - "traefik.docker.network=web"
+            - "traefik.frontend.rule=PathPrefixStrip:/booking"
+            - "traefik.port=8080"
+        networks:
+            - web
     checkin:
         build: ./CheckIn
         volumes:

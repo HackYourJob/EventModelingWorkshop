@@ -1,4 +1,4 @@
-logLevel = "DEBUG"
+logLevel = "INFO"
 defaultEntryPoints = ["http"]
 
 [entryPoints]
