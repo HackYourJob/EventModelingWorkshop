@@ -34,7 +34,7 @@ namespace Domain
         private static readonly IDictionary<string, Type> MappingKeyToEventType = new Dictionary<string, Type>()
         {
             ["room-checked-as-ok"] = typeof(RoomCheckedAsOk),
-            ["room-checked-as-ko"] = typeof(RoomCheckedAsKo),
+            ["room-damage-reported"] = typeof(RoomDamageReported),
             ["room-cleaning-requested"] = typeof(RoomCleaningRequested)
         };
         
