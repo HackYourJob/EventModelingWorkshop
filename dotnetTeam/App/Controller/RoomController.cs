@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace App.Controller
 {
     public class RoomController : Microsoft.AspNetCore.Mvc.Controller
     {
+	    private readonly IRoomRepository _roomRepository;
 	    private readonly IEventsPublisher _publisher;
 
-	    public RoomController(IEventsPublisher publisher)
+	    public RoomController(IEventsPublisher publisher, IRoomRepository roomRepository )
 	    {
+		    _roomRepository = roomRepository ?? throw new ArgumentNullException(nameof(roomRepository));
 		    _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
 	    }
 
@@ -19,8 +24,10 @@ namespace App.Controller
         }
 
 		[Route("[controller]/tobechecked")]
-	    public ActionResult ToBeChecked() {
-		    return View();
+	    public async Task<ActionResult> ToBeChecked() 
+		{
+			var model = new ToBeCheckedModel(await _roomRepository.GetCheckedRoomIds(), await _roomRepository.GetNotCheckedRoomIds());
+		    return View(model);
 	    }
 
 	    [Route("[controller]/checking/{roomId}")]
@@ -62,6 +69,18 @@ namespace App.Controller
 		public CheckingModel(int roomId)
 		{
 			RoomId = roomId;
+		}
+	}
+
+	public class ToBeCheckedModel
+	{
+		public RoomId[] CheckedRoomIds { get; }
+		public RoomId[] NotCheckedRoomIds { get; }
+
+		public ToBeCheckedModel(RoomId[] checkedRoomIds, RoomId[] notCheckedRoomIds)
+		{
+			CheckedRoomIds = checkedRoomIds;
+			NotCheckedRoomIds = notCheckedRoomIds;
 		}
 	}
 }
