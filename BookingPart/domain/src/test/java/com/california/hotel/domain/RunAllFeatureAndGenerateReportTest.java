@@ -1,7 +1,7 @@
-package com.heiwait.tripagency.domain;
+package com.california.hotel.domain;
 
 
-import com.heiwait.tripagency.domain.cucumber.BDDRunner;
+import com.california.hotel.domain.cucumber.BDDRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
