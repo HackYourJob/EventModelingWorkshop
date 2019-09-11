@@ -22,5 +22,10 @@ namespace Domain
                 return publisher.Publish(new RoomCheckedAsKo(_roomId));
             }
         }
+
+        public Task RequestClean(IEventsPublisher publisher)
+        {
+            return publisher.Publish(new RoomCleaningRequested(_roomId));
+        }
     }
 }

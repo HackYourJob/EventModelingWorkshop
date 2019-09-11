@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
 using NFluent;
@@ -8,37 +7,35 @@ namespace DomainShould
 {
     public class RoomShould
     {
+        private static readonly RoomId ExpectedRoomId = new RoomId("101");
+        
+        private readonly FakePublisher _publisher = new FakePublisher();
+
         [Fact]
         public async Task RaiseRoomCheckedAsOkWhenCheckingDoneOk()
         {
-            var publisher = new FakePublisher();
-            var expectedRoomId = new RoomId("101");
-            var room = new Room(expectedRoomId);
-            await room.CheckingDone(publisher, RoomCheckStatus.Ok);
+            var room = new Room(ExpectedRoomId);
+            await room.CheckingDone(_publisher, RoomCheckStatus.Ok);
 
-            Check.That(publisher.Events).Contains(new RoomCheckedAsOk(expectedRoomId));
+            Check.That(_publisher.Events).Contains(new RoomCheckedAsOk(ExpectedRoomId));
         }
         
         [Fact]
         public async Task RaiseRoomCheckedAsKoWhenCheckingDoneIsNotOk()
         {
-            var publisher = new FakePublisher();
-            var expectedRoomId = new RoomId("101");
-            var room = new Room(expectedRoomId);
-            await room.CheckingDone(publisher, RoomCheckStatus.Ko);
+            var room = new Room(ExpectedRoomId);
+            await room.CheckingDone(_publisher, RoomCheckStatus.Ko);
 
-            Check.That(publisher.Events).Contains(new RoomCheckedAsKo(expectedRoomId));
+            Check.That(_publisher.Events).Contains(new RoomCheckedAsKo(ExpectedRoomId));
         }
-    }
 
-    public class FakePublisher : IEventsPublisher
-    {
-        public IList<IDomainEvent> Events { get; } = new List<IDomainEvent>();
-        
-        public Task Publish(IDomainEvent evt)
+        [Fact]
+        public async Task RaiseRoomCleaningRequestedWhenRequestClean()
         {
-            Events.Add(evt);
-            return Task.CompletedTask;
+            var room = new Room(ExpectedRoomId);
+            await room.RequestClean(_publisher);
+
+            Check.That(_publisher.Events).Contains(new RoomCleaningRequested(ExpectedRoomId));
         }
     }
 }
