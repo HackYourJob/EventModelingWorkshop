@@ -11,21 +11,19 @@ namespace Domain
             _roomId = roomId;
         }
 
-        public Task CheckingDone(IEventsPublisher publisher, RoomCheckStatus status)
+        public Task CheckingDone(IEventsPublisher publisher)
         {
-            if (status == RoomCheckStatus.Ok)
-            {
                 return publisher.Publish(new RoomCheckedAsOk(_roomId));
-            }
-            else
-            {
-                return publisher.Publish(new RoomCheckedAsKo(_roomId));
-            }
         }
 
         public Task RequestClean(IEventsPublisher publisher)
         {
             return publisher.Publish(new RoomCleaningRequested(_roomId));
+        }
+
+        public Task ReportDamage(IEventsPublisher publisher, string content)
+        {
+           return publisher.Publish(new RoomDamageReported(_roomId, content));
         }
     }
 }

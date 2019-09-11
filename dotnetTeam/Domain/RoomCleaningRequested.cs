@@ -2,11 +2,11 @@ namespace Domain
 {
     public struct RoomCleaningRequested : IDomainEvent
     {
-        private readonly RoomId _roomId;
+        public RoomId RoomId { get; }
 
         public RoomCleaningRequested(RoomId roomId)
         {
-            _roomId = roomId;
+            RoomId = roomId;
         }
     }
 }

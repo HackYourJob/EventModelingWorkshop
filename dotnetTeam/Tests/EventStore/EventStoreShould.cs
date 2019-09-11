@@ -41,7 +41,7 @@ namespace Tests.EventStore
             var horodateEvent1 = Horodate;
             await CreateEventStore(horodateEvent1).Append(domainEvent1);
             
-            var domainEvent2 = new RoomCheckedAsKo(new RoomId("dude"));
+            var domainEvent2 = new RoomDamageReported(new RoomId("dude"), "toto");
             var horodateEvent2 = Horodate.AddSeconds(1);
             await CreateEventStore(horodateEvent2).Append(domainEvent2);
 
