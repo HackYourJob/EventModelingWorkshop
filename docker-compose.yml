@@ -34,6 +34,18 @@ services:
             - "traefik.port=80"
         networks:
             - web
+    dotnet:
+        image: eventmodeling/dotnet:latest
+        volumes:
+            - "eventStore:/App/DATA"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=dotnet"
+            - "traefik.docker.network=web"
+            - "traefik.frontend.rule=PathPrefix:/room/tobechecked,/room/checking,/room/checkingdone,/room/reportdamage"
+            - "traefik.port=8080"
+        networks:
+            - web
 
 networks:
     web:
