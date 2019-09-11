@@ -11,17 +11,14 @@ namespace Domain
 
         public void CheckingDone(IEventsPublisher publisher, RoomCheckStatus status)
         {
-            publisher.Publish(new RoomCheckedAsOk(_roomId, status));
-        }
-    }
-
-    public struct RoomCheckedAsOk : IDomainEvent
-    {
-        public RoomCheckStatus Status { get; }
-
-        public RoomCheckedAsOk(RoomId expectedRoomId, RoomCheckStatus status)
-        {
-            Status = status;
+            if (status == RoomCheckStatus.Ok)
+            {
+                publisher.Publish(new RoomCheckedAsOk(_roomId));
+            }
+            else
+            {
+                publisher.Publish(new RoomCheckedAsKo(_roomId));
+            }
         }
     }
 }

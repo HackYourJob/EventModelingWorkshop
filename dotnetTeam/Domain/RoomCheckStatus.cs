@@ -2,6 +2,7 @@ namespace Domain
 {
     public enum RoomCheckStatus
     {
-        Ok
+        Ok,
+        Ko
     }
 }
