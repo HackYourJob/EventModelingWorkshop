@@ -1,4 +1,4 @@
-language: csharp
+language: minimal
 
 services:
   - docker
