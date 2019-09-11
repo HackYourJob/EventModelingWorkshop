@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace App.EventStore
+namespace Domain
 {
     public interface IEventStore
     {
@@ -41,7 +41,7 @@ namespace App.EventStore
                 .Select(async filePath =>
                 {
                     var match = Regex.Match(Path.GetFileName(filePath), "(.*)\\-([^\\-]*).json");
-                    var eventType = Type.GetType($"App.Events.{match.Groups[2].Value}");
+                    var eventType = Type.GetType($"Domain.{match.Groups[2].Value}");
                     var payload = await File.ReadAllTextAsync(filePath);
                     return (IDomainEvent) JsonConvert.DeserializeObject(payload, eventType);
                 });

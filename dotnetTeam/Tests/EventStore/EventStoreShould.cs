@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using App.Events;
+using Domain;
 using Xunit;
 using NFluent;
 
@@ -13,7 +13,7 @@ namespace Tests.EventStore
 
         public EventStoreShould()
         {
-            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), $"*{nameof(FakeEvent)}.json"))
+            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), $"*RoomCheckedAs*.json"))
             {
                 File.Delete(file);
             }
@@ -22,30 +22,30 @@ namespace Tests.EventStore
         [Fact]
         public async Task PersistEventsInFiles()
         {
-            var fileName = $"{Horodate:yyyy-MM-dd-HH-mm-ss}-{nameof(FakeEvent)}.json";
+            var fileName = $"{Horodate:yyyy-MM-dd-HH-mm-ss}-{nameof(RoomCheckedAsOk)}.json";
             Check.That(File.Exists(fileName)).IsFalse();
             
             var eventStore = CreateEventStore();
-            var domainEvent = new FakeEvent("whatever", 5);
+            var domainEvent = new RoomCheckedAsOk(new RoomId("whatever"));
             await eventStore.Append(domainEvent);
 
             Check.That(File.Exists(fileName)).IsTrue();
             var fileContent = File.ReadAllText(fileName);
-            Check.That(fileContent).Contains("whatever", "5");
+            Check.That(fileContent).Contains("whatever");
         }
         
         [Fact]
         public async Task PersistAndReadEvents()
         {
-            var domainEvent1 = new FakeEvent("whatever", 5);
+            var domainEvent1 = new RoomCheckedAsOk(new RoomId("whatever"));
             var horodateEvent1 = Horodate;
             await CreateEventStore(horodateEvent1).Append(domainEvent1);
             
-            var domainEvent2 = new FakeEvent("dude", 8);
+            var domainEvent2 = new RoomCheckedAsKo(new RoomId("dude"));
             var horodateEvent2 = Horodate.AddSeconds(1);
             await CreateEventStore(horodateEvent2).Append(domainEvent2);
 
-            var domainEvent3 = new FakeEvent("dady cool", 24);
+            var domainEvent3 = new RoomCheckedAsOk(new RoomId("dady cool"));
             var horodateEvent3 = Horodate.AddSeconds(-1);
             await CreateEventStore(horodateEvent3).Append(domainEvent3);
 
@@ -53,9 +53,9 @@ namespace Tests.EventStore
             Check.That(history).ContainsExactly(domainEvent3, domainEvent1, domainEvent2);
         }
 
-        private static App.EventStore.EventStore CreateEventStore(DateTime? horodate = null)
+        private static Domain.EventStore CreateEventStore(DateTime? horodate = null)
         {
-            return new App.EventStore.EventStore(
+            return new Domain.EventStore(
                 Directory.GetCurrentDirectory(),
                 () => horodate ?? Horodate);
         }
