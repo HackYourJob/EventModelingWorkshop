@@ -22,7 +22,7 @@ class JsonFileSystemEventStore implements EventStore
             sprintf(
                 '%s/%s-%s-%s.json',
                 $this->directory,
-                $event->getDateTime()->format('U'),
+                $event->getDateTime()->format('U') * 1000,
                 $event->getType(),
                 $suffix
             ),
@@ -39,12 +39,12 @@ class JsonFileSystemEventStore implements EventStore
         $events = [];
         foreach(glob($this->directory.'/*.json') as $file) {
             $filename = basename($file, '.json');
-            [$timestamp, $type, $ignoredSuffix] = explode('-', $filename);
+            [$timestamp, $type] = explode('-', $filename);
 
 
             $events[] = Event::fromJson(
                 $type,
-                \DateTimeImmutable::createFromFormat('U', $timestamp),
+                \DateTimeImmutable::createFromFormat('U', intdiv($timestamp, 1000)),
                 json_decode(file_get_contents($file), true)
             );
         }

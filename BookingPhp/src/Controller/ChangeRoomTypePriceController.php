@@ -28,7 +28,7 @@ class ChangeRoomTypePriceController extends AbstractController
         $type = $request->request->get('type');
         $price = $request->request->getInt('price');
 
-        $this->eventStore->append(new RoomTypePriceChanged($type, $price, new DateTimeImmutable()));
+        $this->eventStore->append(new RoomTypePriceChanged($type, $price, new DateTimeImmutable()), $type);
 
         return $this->redirectToRoute('room_types_dashboard');
     }
