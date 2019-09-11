@@ -55,13 +55,18 @@ namespace Tests.EventStore
             var horodateEvent3 = Horodate.AddSeconds(-1);
             await CreateEventStore(horodateEvent3).Append(domainEvent3);
 
+            var domainEvent4 = new GuestCheckedOut(new RoomId("anyway"));
+            var horodateEvent4 = Horodate.AddSeconds(-2);
+            await CreateEventStore(horodateEvent4).Append(domainEvent4);
+
+
             var history = await CreateEventStore().GetAggregateHistory();
-            Check.That(history).ContainsExactly(domainEvent3, domainEvent1, domainEvent2);
+            Check.That(history).ContainsExactly(domainEvent4, domainEvent3, domainEvent1, domainEvent2);
         }
 
-        private Domain.EventStore CreateEventStore(DateTime? horodate = null)
+        private App.EventStore.EventStore CreateEventStore(DateTime? horodate = null)
         {
-            return new Domain.EventStore(
+            return new App.EventStore.EventStore(
                 _filesPath,
                 () => horodate ?? Horodate);
         }

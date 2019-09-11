@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Domain;
 using Newtonsoft.Json;
 
-namespace Domain
+namespace App.EventStore
 {
     public sealed class EventStore : IEventStore
     {
@@ -35,7 +36,8 @@ namespace Domain
         {
             ["room-checked-as-ok"] = typeof(RoomCheckedAsOk),
             ["room-damage-reported"] = typeof(RoomDamageReported),
-            ["room-cleaning-requested"] = typeof(RoomCleaningRequested)
+            ["room-cleaning-requested"] = typeof(RoomCleaningRequested),
+            ["guest-checked-out"] = typeof(GuestCheckedOut),
         };
         
         private static readonly IDictionary<Type, string> MappingEventTypeToKey = MappingKeyToEventType.ToDictionary(x => x.Value, x => x.Key);
