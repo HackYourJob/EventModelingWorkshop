@@ -18,40 +18,40 @@ namespace App.Controller
             return View();
         }
 
-		[Route("[controller]/ToBeChecked")]
+		[Route("[controller]/tobechecked")]
 	    public ActionResult ToBeChecked() {
 		    return View();
 	    }
 
-	    [Route("[controller]/Checking/{roomId}")]
+	    [Route("[controller]/checking/{roomId}")]
 		public ActionResult Checking(int roomId)
 	    {
 		    return View(new CheckingModel(roomId));
 	    }
 
-	    [Route("[controller]/CheckingDone/{roomId}")]
+	    [Route("[controller]/checkingdone/{roomId}")]
 	    public ActionResult CheckingDone(int roomId) 
 		{
 		    var room = new Room(new RoomId(roomId.ToString()));
 		    room.CheckingDone(_publisher);
-			return RedirectToAction("ToBeChecked");
+			return RedirectToAction("tobechecked");
 	    }
 
 		[HttpPost]
-	    [Route("[controller]/ReportDamage/{roomId}")]
+	    [Route("[controller]/reportdamage/{roomId}")]
 	    public ActionResult ReportDamage(int roomId, string description)
 		{
 		    var room = new Room(new RoomId(roomId.ToString()));
 		    room.ReportDamage(_publisher, description);
-			return RedirectToAction("ToBeChecked");
+			return RedirectToAction("tobechecked");
 		}
 
-	    [Route("[controller]/CheckoutGuest/{roomId}")]
+	    [Route("[controller]/checkoutguest/{roomId}")]
 		public ActionResult CheckoutGuest(int roomId)
 	    {
 		    var guest = new Guest();
 		    guest.Checkout(_publisher, new RoomId(roomId.ToString()));
-			return RedirectToAction("ToBeChecked");
+			return RedirectToAction("tobechecked");
 		}
 	}
 
