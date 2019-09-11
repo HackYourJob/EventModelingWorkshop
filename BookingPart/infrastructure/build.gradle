@@ -1,0 +1,11 @@
+dependencies {
+    compile project(':domain')
+    compile 'org.springframework.boot:spring-boot-test:2.1.3.RELEASE'
+    compile 'javax.xml.bind:jaxb-api:2.2.11'
+    compile 'com.sun.xml.bind:jaxb-core:2.2.11'
+    compile 'com.sun.xml.bind:jaxb-impl:2.2.11'
+    testCompile 'org.springframework.boot:spring-boot-starter-test:2.1.3.RELEASE'
+    testCompile 'org.springframework:spring-test:5.1.5.RELEASE'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.11.1'
+}

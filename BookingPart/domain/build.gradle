@@ -1,0 +1,10 @@
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.9'
+    compile 'com.github.cukedoctor:cukedoctor-converter:1.2.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.11.1'
+    testCompile 'org.mockito:mockito-core:2.24.0'
+    testCompile 'io.cucumber:cucumber-java:4.2.3'
+    testCompile 'io.cucumber:cucumber-junit:4.2.3'
+}
