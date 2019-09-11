@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,27 +18,45 @@ namespace Domain
         public EventStore(string directory, Func<DateTime> getHorodate)
         {
             _directory = directory;
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
             _getHorodate = getHorodate;
         }
         
         public Task Append(IDomainEvent domainEvent)
         {
-            var fileName = $"{_getHorodate():yyyy-MM-dd-HH-mm-ss}-{domainEvent.GetType().Name}.json";
+            var typeKey = MappingEventTypeToKey[domainEvent.GetType()];
+            
+            var fileName = $"{_getHorodate():yyyy-MM-dd-HH-mm-ss}-{typeKey}.json";
             var payload = JsonConvert.SerializeObject(domainEvent);
             return File.WriteAllTextAsync(Path.Combine(_directory, fileName), payload);
         }
+        
+        private static readonly IDictionary<string, Type> MappingKeyToEventType = new Dictionary<string, Type>()
+        {
+            ["room-checked-as-ok"] = typeof(RoomCheckedAsOk),
+            ["room-checked-as-ko"] = typeof(RoomCheckedAsKo),
+            ["room-cleaning-requested"] = typeof(RoomCleaningRequested)
+        };
+        
+        private static readonly IDictionary<Type, string> MappingEventTypeToKey = MappingKeyToEventType.ToDictionary(x => x.Value, x => x.Key);
 
         public Task<IDomainEvent[]> GetAggregateHistory()
         {
+            const string eventFilePattern = "(\\d{4}-\\d{2}-\\d{2}-\\d{2}-\\d{2}-\\d{2})\\-(.*).json";
             var readFiles = Directory.EnumerateFiles(_directory)
-                .Where(filePath => Regex.IsMatch(filePath, "(.*)\\-([^\\-]*).json"))
+                .Where(filePath => Regex.IsMatch(filePath, eventFilePattern))
                 .Select(async filePath =>
                 {
-                    var match = Regex.Match(Path.GetFileName(filePath), "(.*)\\-([^\\-]*).json");
-                    var eventType = Type.GetType($"Domain.{match.Groups[2].Value}");
-                    var payload = await File.ReadAllTextAsync(filePath);
-                    return (IDomainEvent) JsonConvert.DeserializeObject(payload, eventType);
-                });
+                    var match = Regex.Match(Path.GetFileName(filePath), eventFilePattern);
+                    if (MappingKeyToEventType.TryGetValue(match.Groups[2].Value, out var eventType))
+                    {
+                        var payload = await File.ReadAllTextAsync(filePath);
+                        return (IDomainEvent) JsonConvert.DeserializeObject(payload, eventType);
+                    }
+
+                    return null;
+                })
+                .Where(evt => evt != null);
 
             return Task.WhenAll(readFiles);
         }

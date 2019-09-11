@@ -13,7 +13,7 @@ namespace Tests.EventStore
 
         public EventStoreShould()
         {
-            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), $"*RoomCheckedAs*.json"))
+            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), $"*room-checked-as-*.json"))
             {
                 File.Delete(file);
             }
@@ -22,7 +22,7 @@ namespace Tests.EventStore
         [Fact]
         public async Task PersistEventsInFiles()
         {
-            var fileName = $"{Horodate:yyyy-MM-dd-HH-mm-ss}-{nameof(RoomCheckedAsOk)}.json";
+            var fileName = $"{Horodate:yyyy-MM-dd-HH-mm-ss}-room-checked-as-ok.json";
             Check.That(File.Exists(fileName)).IsFalse();
             
             var eventStore = CreateEventStore();
