@@ -3,15 +3,20 @@ organization := "compile"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, JibPlugin)
 
 scalaVersion := "2.13.0"
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % Test
 
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "compile.controllers._"
+//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+//jibTargetImageCredentialHelper := Some("abc")
+//jibBaseImage := "docker.io/eventmodeling/payment:1.0-SNAPSHOT"
 
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "compile.binders._"
+jibBaseImage    := "openjdk:11-jre"
+
+jibOrganization := "eventmodeling"
+jibName         := "payment"
+jibVersion      := "1.0-SNAPSHOT"
+   
