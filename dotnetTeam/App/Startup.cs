@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +33,8 @@ namespace App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+	        services.AddTransient<IEventsPublisher, EventsPublisher>();
+	        services.AddTransient<IEventStore, EventStore>(provider => new EventStore(Environment.GetEnvironmentVariable("WORKSHOP_EVENTSTORE_DIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "DATA")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

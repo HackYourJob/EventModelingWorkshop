@@ -4,3 +4,7 @@ bin/
 obj/
 packages/
 .ionide/
+.vs/
+*.user
+DATA/
+DATA/*

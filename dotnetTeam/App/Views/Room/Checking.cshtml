@@ -1,0 +1,17 @@
+﻿@using Domain
+@model App.Controller.CheckingModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Checking room number @Model.RoomId</h2>
+
+<button onclick="location.href='/room/checkingdone/@Model.RoomId'">Done</button>
+
+<form action="/room/ReportDamage/@Model.RoomId" method="post">
+    <input name="description" />
+    <button type="submit">Report damage</button>
+</form>
+
