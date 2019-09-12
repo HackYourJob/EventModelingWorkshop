@@ -4,7 +4,6 @@
 namespace App\Tests;
 use App\Events\RoomAddedToInventory;
 use App\EventStore\InMemoryEventStore;
-use App\ReadModels\RoomExists;
 use App\ReadModels\RoomInventory;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -21,11 +20,23 @@ class RoomInventoryTest extends TestCase
         $this->assertEmpty($roomInventory());
 
         $eventStore->append(new RoomAddedToInventory(1, "double", new DateTimeImmutable()), "room1");
-        $inventory = $roomInventory();
-        $this->assertCount(1, $inventory);
+        $this->assertEquals([
+            [
+                'id' => 1,
+                'type' => 'double',
+            ],
+        ], $roomInventory());
 
         $eventStore->append(new RoomAddedToInventory(2, "twin", new DateTimeImmutable()), "room2");
-        $inventory = $roomInventory();
-        $this->assertCount(2, $inventory);
+        $this->assertEquals([
+            [
+                'id' => 1,
+                'type' => 'double',
+            ],
+            [
+                'id' => 2,
+                'type' => 'twin',
+            ],
+        ], $roomInventory());
     }
 }
