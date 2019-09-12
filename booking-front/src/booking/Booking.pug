@@ -1,12 +1,16 @@
 #booking
   h1(data-selector='title') Your reservation
 
+  label Dates
+  ul
+    li(v-for='date in availability' data-selector='availability-item') {{ date }}
+
   label Select your size:
   div
     label(for='twin') Twin
-    input#twin(type='radio' data-selector='twin' name='size' value='twin')
+    input#twin(type='radio' data-selector='twin' name='size' value='twin' @input='beTwin()')
     label(for='king') King
-    input#king(type='radio' data-selector='king' name='size' value='king')
+    input#king(type='radio' data-selector='king' name='size' value='king' @input='beKing()')
   div
     label(for='start-date') Start date
     input#start-date(data-selector='start-date' v-model='startDate')
