@@ -6,3 +6,4 @@ hotel_booking:
     - "12378:12378"
   volumes:
     - /Volumes/DATA/logs:/opt/apps/logs
+    - ./events:/events

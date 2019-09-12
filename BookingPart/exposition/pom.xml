@@ -76,9 +76,17 @@
                 <version>1.5.1</version>
                 <configuration>
                     <to>
-                        <image>docker.io/eventmodeling/booking:${project.version}</image>
+                        <image>docker.io/eventmodeling/booking</image>
                     </to>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
