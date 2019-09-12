@@ -25,7 +25,7 @@ public class EventRepository {
 	}
 
 	@Value("${events.folder}")
-    String eventsFolder;
+	String eventsFolder;
 
 	public void persistEvent(DomainEvent event) {
 		try {
@@ -46,12 +46,13 @@ public class EventRepository {
 	private DomainEvent fileNameToDomainEvent(String fileName) {
 		DomainEvent event = null;
 		try {
+			Class<? extends DomainEvent> valueType = null;
 			if (fileName.endsWith("payment-required.json")) {
-				event = objectMapper.readValue(new File(eventsFolder + File.separator + fileName), DomainEvent.PaymentRequired.class);
+				valueType = DomainEvent.PaymentRequired.class;
+			} else if (fileName.endsWith("room-made-available.json")) {
+				valueType = DomainEvent.RoomMadeAvailable.class;
 			}
-			else if (fileName.endsWith("room-made-available.json")) {
-				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), DomainEvent.RoomMadeAvailable.class);
-			}
+			event = getEvent(fileName, valueType);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -59,6 +60,10 @@ public class EventRepository {
 			event.setTimestamp(instantFromFilename(fileName));
 		}
 		return event;
+	}
+
+	private DomainEvent getEvent(String fileName, Class<? extends DomainEvent> valueType) throws IOException {
+		return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), valueType);
 	}
 
 	private Instant instantFromFilename(String fileName) {
