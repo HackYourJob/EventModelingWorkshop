@@ -11,23 +11,23 @@ sealed class DomainEvent(var type: String, @JsonIgnore open var timestamp: Insta
 		var endDate: LocalDate? = null,
 		var amount: Int = 0,
 		var roomType: String? = null,
-		var instant: Instant = Instant.now()
-	) : DomainEvent("payment-required", instant)
+		override var timestamp: Instant = Instant.now()
+	) : DomainEvent("payment-required", timestamp)
 
 	data class PaymentSucceed(
 		var bookingId: String? = null,
-		var instant: Instant = Instant.now()
-	) : DomainEvent("payment-succeed")
+		override var timestamp: Instant = Instant.now()
+	) : DomainEvent("payment-succeed", timestamp)
 
 	data class RoomBooked(
 		var bookingId: String? = null,
-		var instant: Instant = Instant.now()
-	) : DomainEvent("room-booked")
+		override var timestamp: Instant = Instant.now()
+	) : DomainEvent("room-booked", timestamp)
 
 	data class RoomMadeAvailable(
 		var roomId: String,
 		var roomType: String,
-		var instant: Instant = Instant.now()
-	) : DomainEvent("room-made-available")
+		override var timestamp: Instant = Instant.now()
+	) : DomainEvent("room-made-available", timestamp)
 
 }

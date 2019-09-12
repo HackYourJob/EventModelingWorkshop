@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,9 +44,10 @@ public class EventRepository {
 	}
 
 	private DomainEvent fileNameToDomainEvent(String fileName) {
+		DomainEvent event = null;
 		try {
 			if (fileName.endsWith("payment-required.json")) {
-				return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), DomainEvent.PaymentRequired.class);
+				event = objectMapper.readValue(new File(eventsFolder + File.separator + fileName), DomainEvent.PaymentRequired.class);
 			}
 			else if (fileName.endsWith("room-made-available.json")) {
 				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), DomainEvent.RoomMadeAvailable.class);
@@ -53,7 +55,15 @@ public class EventRepository {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		if (event != null) {
+			event.setTimestamp(instantFromFilename(fileName));
+		}
+		return event;
+	}
+
+	private Instant instantFromFilename(String fileName) {
+		String millis = fileName.substring(0, fileName.indexOf("-"));
+		return Instant.ofEpochMilli(Long.parseLong(millis));
 	}
 
 
