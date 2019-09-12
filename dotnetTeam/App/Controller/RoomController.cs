@@ -23,6 +23,20 @@ namespace App.Controller
             return View();
         }
 
+        [Route("[controller]/checkin")]
+        public ActionResult CheckIn() 
+        {
+	        return View();
+        }
+
+        [HttpPost]
+        [Route("[controller]/checkin")]
+        public async Task<ActionResult> CheckIn(string roomId)
+        {
+	        await _publisher.Publish(new RoomCheckedIn(new RoomId(roomId)));
+	        return View();
+        }
+
 		[Route("[controller]/tobechecked")]
 	    public async Task<ActionResult> ToBeChecked() 
 		{
@@ -62,7 +76,7 @@ namespace App.Controller
 		}
 	}
 
-	public class CheckingModel
+    public class CheckingModel
 	{
 		public int RoomId { get; }
 

@@ -1,0 +1,12 @@
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Checkin rooms</h2>
+
+<form action="/room/checkin" method="post">
+    Room
+    <input name="roomId"/>
+    <button class="btn btn-danger" type="submit">CheckIn</button>
+</form>
