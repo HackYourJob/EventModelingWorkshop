@@ -7,12 +7,12 @@ using NFluent;
 
 namespace Tests.EventStore
 {
-    public class EventStoreShould
+    public class EventStoreFileSystemShould
     {
         private static readonly DateTime Horodate = new DateTime(2019, 9, 11, 16, 15, 0);
         private readonly string _filesPath;
 
-        public EventStoreShould()
+        public EventStoreFileSystemShould()
         {
             _filesPath = Path.Combine(Directory.GetCurrentDirectory(), "TestsEvents");
             if (Directory.Exists(_filesPath))
@@ -69,9 +69,9 @@ namespace Tests.EventStore
             Check.That(history).ContainsExactly(domainEvent4, domainEvent3, domainEvent1, domainEvent2, domainEvent5, domainEvent6);
         }
 
-        private App.EventStore.EventStore CreateEventStore(DateTime? horodate = null)
+        private App.EventStore.EventStoreFileSystem CreateEventStore(DateTime? horodate = null)
         {
-            return new App.EventStore.EventStore(
+            return new App.EventStore.EventStoreFileSystem(
                 _filesPath,
                 () => horodate ?? Horodate);
         }

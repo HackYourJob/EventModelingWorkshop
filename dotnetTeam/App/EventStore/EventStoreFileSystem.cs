@@ -9,14 +9,14 @@ using Newtonsoft.Json;
 
 namespace App.EventStore
 {
-    public sealed class EventStore : IEventStore
+    public sealed class EventStoreFileSystem : IEventStore
     {
         private readonly string _directory;
         private readonly Func<DateTime> _getHorodate;
 
-        public EventStore(string directory) : this(directory, () => DateTime.Now)  { }
+        public EventStoreFileSystem(string directory) : this(directory, () => DateTime.Now)  { }
         
-        public EventStore(string directory, Func<DateTime> getHorodate)
+        public EventStoreFileSystem(string directory, Func<DateTime> getHorodate)
         {
             _directory = directory;
             if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
