@@ -23,16 +23,8 @@ namespace App
 				.Select(o => o.Key)
 				.ToArray();
 		}
-		public async Task<RoomId[]> GetCheckedRoomIds() {
-			return (await _eventStore.GetAggregateHistory())
-				.OfType<IRoomDomainEvent>()
-				.GroupBy(o => o.RoomId)
-				.Where(o => o.Last() is RoomCheckedAsOk)
-				.Select(o => o.Key)
-				.ToArray();
-		}
 
-		public async Task<RoomId[]> GetDirtyRoomIds()
+		public async Task<RoomId[]> GetCheckedInRoomIds()
 		{
 			return (await _eventStore.GetAggregateHistory())
 				.OfType<IRoomDomainEvent>()

@@ -10,10 +10,7 @@
 
     @{
         foreach (var roomId in Model.NotCheckedRoomIds) {
-            <li>room @roomId.Value <button class="btn btn-primary" onclick="location.href = '/room/checking/@roomId.Value'">Start Checking</button> </li>
-        }
-        foreach (var roomId in Model.CheckedRoomIds) {
-            <li>room @roomId.Value <button class="btn btn-warning" onclick="location.href = '/room/checkoutguest/@roomId.Value'">Checkout Guest</button> </li>
+            <li>room @roomId.Value <a class="btn btn-primary" href="/room/checking/@roomId.Value">Start Checking</a> </li>
         }
     }
 

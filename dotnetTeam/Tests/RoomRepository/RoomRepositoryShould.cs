@@ -15,7 +15,7 @@ namespace Tests.RoomRepository
 		public async Task ReturnEmptyArryIfNothingInEventStore()
 		{
 			var roomRepo = new App.RoomRepository(new FakeEventStore(Array.Empty<IDomainEvent>()));
-			Check.That(await roomRepo.GetCheckedRoomIds()).IsEmpty();
+			Check.That(await roomRepo.GetCheckedInRoomIds()).IsEmpty();
 		}
 	}
 

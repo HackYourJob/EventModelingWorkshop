@@ -41,7 +41,7 @@ namespace App.Controller
 		[Route("[controller]/tobechecked")]
 	    public async Task<ActionResult> ToBeChecked() 
 		{
-			var model = new ToBeCheckedModel(await _roomRepository.GetCheckedRoomIds(), await _roomRepository.GetNotCheckedRoomIds());
+			var model = new ToBeCheckedModel(await _roomRepository.GetNotCheckedRoomIds());
 		    return View(model);
 	    }
 
@@ -79,7 +79,7 @@ namespace App.Controller
 		[Route("[controller]/toclean")]
 		public async Task<ActionResult> ToClean()
 		{
-			return View((await _roomRepository.GetDirtyRoomIds()).ToList());
+			return View((await _roomRepository.GetCheckedInRoomIds()).ToList());
 		}
 
 		[Route("[controller]/requestclean/{roomId}")]
@@ -102,12 +102,10 @@ namespace App.Controller
 
 	public class ToBeCheckedModel
 	{
-		public RoomId[] CheckedRoomIds { get; }
 		public RoomId[] NotCheckedRoomIds { get; }
 
-		public ToBeCheckedModel(RoomId[] checkedRoomIds, RoomId[] notCheckedRoomIds)
+		public ToBeCheckedModel(RoomId[] notCheckedRoomIds)
 		{
-			CheckedRoomIds = checkedRoomIds;
 			NotCheckedRoomIds = notCheckedRoomIds;
 		}
 	}

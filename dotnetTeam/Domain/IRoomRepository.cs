@@ -5,7 +5,6 @@ namespace Domain
 	public interface IRoomRepository
 	{
 		Task<RoomId[]> GetNotCheckedRoomIds();
-		Task<RoomId[]> GetCheckedRoomIds();
-		Task<RoomId[]> GetDirtyRoomIds();
+		Task<RoomId[]> GetCheckedInRoomIds();
 	}
 }
