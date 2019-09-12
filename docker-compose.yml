@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+    watchtower:
+      image: v2tec/watchtower
+      volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+         #       - /root/.docker/config.json:/config.json
+      command: --interval 30 --label-enable
+
     proxy:
         image: traefik:latest
         restart: always
@@ -10,6 +17,7 @@ services:
             - ./traefik.toml:/traefik.toml
         networks:
           - web
+
     eventstore:
         image: eventstore/eventstore:latest
         ports:
@@ -18,6 +26,7 @@ services:
           - "eventstore-data:/var/lib/eventstore"
         networks:
           - web
+
     booking-front:
         build: ./booking-front
         labels:
@@ -26,8 +35,10 @@ services:
             - "traefik.docker.network=web"
             - "traefik.frontend.rule=PathPrefixStrip:/booking"
             - "traefik.port=8080"
+              #           - "com.centurylinklabs.watchtower.enable=true"
         networks:
             - web
+
     checkin:
         build: ./CheckIn
         volumes:
@@ -38,8 +49,10 @@ services:
             - "traefik.docker.network=web"
             - "traefik.frontend.rule=Path:/checkin"
             - "traefik.port=5000"
+              #          - "com.centurylinklabs.watchtower.enable=true"
         networks:
             - web
+
     php:
         build: ./BookingPhp
         volumes:
@@ -50,8 +63,10 @@ services:
             - "traefik.docker.network=web"
             - "traefik.frontend.rule=Path:/room-inventory,/create_room,/change_type_price,/room-types"
             - "traefik.port=80"
+              #            - "com.centurylinklabs.watchtower.enable=true"
         networks:
             - web
+
     dotnet:
         image: eventmodeling/dotnet:latest
         links:
@@ -64,6 +79,7 @@ services:
             - "traefik.docker.network=web"
             - "traefik.frontend.rule=PathPrefix:/Room/,/room/"
             - "traefik.port=8080"
+            - "com.centurylinklabs.watchtower.enable=true"
         environment:
             - "WORKSHOP_EVENTSTORE_PASSWORD=${EVENTSTORE_PASSWORD}"
         networks:
@@ -79,6 +95,7 @@ services:
             - "traefik.docker.network=web"
             - "traefik.frontend.rule=PathPrefix:/api/booking/book-room,/api/payment/details/"
             - "traefik.port=12378"
+            - "com.centurylinklabs.watchtower.enable=true"
         networks:
             - web
 
