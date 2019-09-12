@@ -82,6 +82,10 @@ services:
         networks:
             - web
 
+volumes:
+    eventstore-data:
+        driver: local
+
 networks:
     web:
 
