@@ -57,6 +57,19 @@ services:
         networks:
             - web
 
+    java:
+        image: eventmodeling/java:latest
+        volumes:
+            - "./eventStore:/tmp/events"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.backend=java"
+            - "traefik.docker.network=web"
+            - "traefik.frontend.rule=PathPrefix:/api/booking/book-room,/api/payment/details/"
+            - "traefik.port=12378"
+        networks:
+            - web
+
 networks:
     web:
 
