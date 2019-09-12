@@ -16,6 +16,7 @@ libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3
 
 jibBaseImage    := "openjdk:11-jre"
 
+jibRegistry := "docker.io"
 jibOrganization := "eventmodeling"
 jibName         := "payment"
 jibVersion      := "1.0-SNAPSHOT"
