@@ -67,8 +67,8 @@ namespace App.EventStore
 
         public async Task<IDomainEvent[]> GetAggregateHistory()
         {
-            var allevents = await _connection.ReadAllEventsBackwardAsync(Position.End, Int32.MaxValue, false, _userCredentials);
-            return allevents.Events.Select(ToDomainEvent).ToArray();
+            var allevents = await _connection.ReadAllEventsBackwardAsync(Position.End, 4096, false, _userCredentials);
+            return allevents.Events.Where(e => MappingKeyToEventType .ContainsKey(e.Event.EventType)).Select(ToDomainEvent).ToArray();
         }
 
         private IDomainEvent ToDomainEvent(ResolvedEvent e)
