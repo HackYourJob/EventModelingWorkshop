@@ -57,17 +57,17 @@ namespace App.EventStore
                 {
                     var match = Regex.Match(Path.GetFileName(filePath), eventFilePattern);
                     var horodate = long.Parse(match.Groups[1].Value);
-                    var eventType = match.Groups[2].Value;
-                    if (MappingKeyToEventType.ContainsKey(eventType))
+                    var eventTypeTag = match.Groups[2].Value;
+                    if (MappingKeyToEventType.TryGetValue(eventTypeTag, out var eventType))
                         return (horodate: horodate, filePath: filePath, eventType: eventType);
                     return (horodate: horodate, filePath: filePath, eventType: null);
                 })
-                .Where(t => !string.IsNullOrEmpty(t.eventType))
+                .Where(t => t.eventType != default(Type))
                 .OrderBy(t => t.horodate)
                 .Select(async t =>
                 {
                     var payload = await File.ReadAllTextAsync(t.filePath);
-                    var domainEvent = (IDomainEvent)JsonConvert.DeserializeObject(payload, MappingKeyToEventType[t.eventType]);
+                    var domainEvent = (IDomainEvent)JsonConvert.DeserializeObject(payload, t.eventType);
                     return domainEvent;
                 });
 
