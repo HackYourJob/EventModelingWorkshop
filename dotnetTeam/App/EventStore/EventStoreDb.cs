@@ -19,9 +19,9 @@ namespace App.EventStore
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
         private bool _connected;
 
-        public EventStoreDb(string storeAdress)
+        public EventStoreDb(string storeAddress, string login, string password)
         {
-            _userCredentials = new UserCredentials("admin", "changeit");
+            _userCredentials = new UserCredentials(login, password);
             var settings = ConnectionSettings.Create()
                 .UseConsoleLogger()
                 .SetDefaultUserCredentials(_userCredentials)
@@ -30,7 +30,7 @@ namespace App.EventStore
 
             _connection = EventStoreConnection.Create(
                 settings,
-                new Uri($"tcp://{storeAdress}:1113"));
+                new Uri($"tcp://{storeAddress}:1113"));
 
             _connection.Connected += OnConnected;
             _connection.Disconnected += OnDisconnected;
