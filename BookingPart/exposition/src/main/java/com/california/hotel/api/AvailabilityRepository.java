@@ -1,22 +1,23 @@
 package com.california.hotel.api;
 
+import com.california.hotel.infrastrucutre.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AvailabilityRepository {
-    private final EventRepository eventRepository;
+	private final EventRepository eventRepository;
 
-    public AvailabilityRepository(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
+	public AvailabilityRepository(EventRepository eventRepository) {
+		this.eventRepository = eventRepository;
+	}
 
-    public Availability getAvailability() {
+	public Availability getAvailability() {
 
-        return eventRepository.domainEvents().stream()
-                .reduce(
-                        Availability.init(),
-                        (availability, domainEvent) -> availability.handle(domainEvent),
-                        Availability::merge
-                );
-    }
+		return eventRepository.domainEvents().stream()
+			.reduce(
+				Availability.init(),
+				Availability::handle,
+				Availability::merge
+			);
+	}
 }

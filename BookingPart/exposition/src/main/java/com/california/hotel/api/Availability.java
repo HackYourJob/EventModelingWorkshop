@@ -1,5 +1,7 @@
 package com.california.hotel.api;
 
+import com.california.hotel.domain.DomainEvent;
+import com.california.hotel.domain.RoomMadeAvailable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 

@@ -2,6 +2,7 @@ package com.california.hotel.infrastrucutre.repository;
 
 import com.california.hotel.domain.DomainEvent;
 import com.california.hotel.domain.PaymentRequired;
+import com.california.hotel.domain.RoomMadeAvailable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
