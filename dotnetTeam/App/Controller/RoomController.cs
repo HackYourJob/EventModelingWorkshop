@@ -77,9 +77,9 @@ namespace App.Controller
 		}
 
 		[Route("[controller]/toclean")]
-		public ActionResult ToClean()
+		public async Task<ActionResult> ToClean()
 		{
-			return View(new List<RoomId> { new RoomId("1"), new RoomId("2")});
+			return View((await _roomRepository.GetDirtyRoomIds()).ToList());
 		}
 
 		[Route("[controller]/requestclean/{roomId}")]

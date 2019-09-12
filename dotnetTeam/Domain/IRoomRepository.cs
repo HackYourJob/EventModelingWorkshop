@@ -6,5 +6,6 @@ namespace Domain
 	{
 		Task<RoomId[]> GetNotCheckedRoomIds();
 		Task<RoomId[]> GetCheckedRoomIds();
+		Task<RoomId[]> GetDirtyRoomIds();
 	}
 }
