@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ public class HotelResource {
 	}
 
 	@ApiOperation(value = "Book a room")
-	@PostMapping(value = {"/booking/book-room"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = {"/booking/book-room"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> booksHotelRoom(@RequestBody BookRoomCommand command) {
 		new BookRoomCommandHandler(Clock.system(ZoneId.systemDefault())).apply(command)
             .forEach(eventRepository::persistEvent);

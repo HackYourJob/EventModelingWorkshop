@@ -5,13 +5,16 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class PaymentRequired implements DomainEvent {
-	public final String bookingId;
-	public final Instant timestamp;
-    public final String guestId;
-    public final LocalDate startDate;
-    public final LocalDate endDate;
-    public final int amount;
-    public final String roomType;
+	public String bookingId;
+	public Instant timestamp;
+    public String guestId;
+    public LocalDate startDate;
+    public LocalDate endDate;
+    public int amount;
+    public String roomType;
+
+	public PaymentRequired() {
+	}
 
 	public PaymentRequired(String bookingId, Instant timestamp, String guestId, LocalDate startDate, LocalDate endDate, int amount, String roomType) {
 		this.bookingId = bookingId;
@@ -22,6 +25,62 @@ public class PaymentRequired implements DomainEvent {
         this.amount = amount;
         this.roomType = roomType;
     }
+
+	public String getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public Instant getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Instant timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getGuestId() {
+		return guestId;
+	}
+
+	public void setGuestId(String guestId) {
+		this.guestId = guestId;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
 
 	@Override
 	public Instant timestamp() {

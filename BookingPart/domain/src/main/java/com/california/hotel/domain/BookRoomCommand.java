@@ -9,7 +9,10 @@ public class BookRoomCommand {
     public String roomType;
     public int amount;
 
-    public BookRoomCommand(String guestId, LocalDate startDate, LocalDate endDate, String roomType, int amount) {
+	public BookRoomCommand() {
+	}
+
+	public BookRoomCommand(String guestId, LocalDate startDate, LocalDate endDate, String roomType, int amount) {
         this.guestId = guestId;
         this.startDate = startDate;
         this.endDate = endDate;

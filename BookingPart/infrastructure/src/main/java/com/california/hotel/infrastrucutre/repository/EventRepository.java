@@ -46,7 +46,7 @@ public class EventRepository {
 	private DomainEvent fileNameToDomainEvent(String fileName) {
 		try {
 			if (fileName.endsWith("payment-required.json")) {
-				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), PaymentRequired.class);
+				return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), PaymentRequired.class);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
