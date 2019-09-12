@@ -1,0 +1,14 @@
+@model List<Domain.RoomId>
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Dirty rooms</h2>
+<ul>
+    @{
+        foreach (var roomId in Model) {
+            <li>room @roomId.Value <a class="btn btn-primary" href="/room/requestclean/@roomId.Value">Request clean</a> </li>
+        }
+    }
+</ul>

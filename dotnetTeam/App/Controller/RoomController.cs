@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
@@ -73,6 +74,19 @@ namespace App.Controller
 		    var guest = new Guest();
 		    guest.Checkout(_publisher, new RoomId(roomId.ToString()));
 			return RedirectToAction("tobechecked");
+		}
+
+		[Route("[controller]/toclean")]
+		public ActionResult ToClean()
+		{
+			return View(new List<RoomId> { new RoomId("1"), new RoomId("2")});
+		}
+
+		[Route("[controller]/requestclean/{roomId}")]
+		public ActionResult RequestClean(string roomId)
+		{
+			_publisher.Publish(new RoomCleaningRequested(new RoomId(roomId)));
+			return RedirectToAction(nameof(ToClean));
 		}
 	}
 
