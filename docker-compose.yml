@@ -14,6 +14,8 @@ services:
         image: eventstore/eventstore:latest
         ports:
             - "2113:2113"
+        volumes:
+          - "eventstore-data:/var/lib/eventstore"
         networks:
           - web
     booking-front:
