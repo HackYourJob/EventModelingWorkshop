@@ -43,5 +43,15 @@ namespace App
 				.Select(o => o.Key)
 				.ToArray();
 		}
+
+		public async Task<RoomId[]> GetCheckInRoomIds()
+		{
+			return (await _eventStore.GetAggregateHistory())
+				.OfType<IRoomDomainEvent>()
+				.GroupBy(o => o.RoomId)
+				.Where(o => o.Last() is RoomCheckedIn)
+				.Select(o => o.Key)
+				.ToArray();
+		}
 	}
 }

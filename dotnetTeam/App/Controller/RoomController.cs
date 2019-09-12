@@ -108,6 +108,20 @@ namespace App.Controller
 			return RedirectToAction(nameof(DirtyRooms));
 		}
 
+		[Route("[controller]/checkout")]
+		public async Task<ActionResult> ToCheckedOut() 
+		{
+			return View(await _roomRepository.GetCheckInRoomIds());
+		}
+
+		[Route("[controller]/checkout/{roomId}")]
+		public ActionResult CheckOut(string roomId)
+		{
+			_publisher.Publish(new GuestCheckedOut(new RoomId(roomId)));
+			
+			return RedirectToAction(nameof(ToCheckedOut));
+		}
+
 	}
 
     public class CheckingModel
