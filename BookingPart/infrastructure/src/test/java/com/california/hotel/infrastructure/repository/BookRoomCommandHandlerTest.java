@@ -1,7 +1,9 @@
-import com.california.hotel.api.BookRoomCommand;
-import com.california.hotel.api.BookRoomCommandHandler;
-import com.california.hotel.api.DomainEvent;
-import com.california.hotel.api.PaymentRequired;
+package com.california.hotel.infrastructure.repository;
+
+import com.california.hotel.domain.BookRoomCommand;
+import com.california.hotel.domain.BookRoomCommandHandler;
+import com.california.hotel.domain.DomainEvent;
+import com.california.hotel.domain.PaymentRequired;
 import org.junit.Test;
 
 import java.time.Clock;

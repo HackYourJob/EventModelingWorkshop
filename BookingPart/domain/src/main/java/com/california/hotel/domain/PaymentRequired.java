@@ -1,4 +1,4 @@
-package com.california.hotel.api;
+package com.california.hotel.domain;
 
 import java.time.Instant;
 import java.time.LocalDate;

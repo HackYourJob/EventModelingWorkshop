@@ -1,6 +1,8 @@
 package com.california.hotel.api;
 
 
+import com.california.hotel.domain.*;
+import com.california.hotel.infrastrucutre.repository.EventRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

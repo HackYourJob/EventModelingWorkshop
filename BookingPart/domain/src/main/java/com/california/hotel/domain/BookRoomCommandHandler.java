@@ -1,4 +1,4 @@
-package com.california.hotel.api;
+package com.california.hotel.domain;
 
 import java.time.Clock;
 import java.util.Collections;

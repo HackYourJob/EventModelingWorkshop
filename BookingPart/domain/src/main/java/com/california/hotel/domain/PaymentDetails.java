@@ -1,4 +1,4 @@
-package com.california.hotel.api;
+package com.california.hotel.domain;
 
 public class PaymentDetails {
 	public String bookingId;
