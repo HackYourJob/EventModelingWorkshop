@@ -34,10 +34,10 @@ namespace App.EventStore
         
         private static readonly IDictionary<string, Type> MappingKeyToEventType = new Dictionary<string, Type>()
         {
-            ["room-checked-as-ok"] = typeof(RoomCheckedAsOk),
-            ["room-damage-reported"] = typeof(RoomDamageReported),
-            ["room-cleaning-requested"] = typeof(RoomCleaningRequested),
-            ["guest-checked-out"] = typeof(GuestCheckedOut),
+            ["roomCheckedAsOk"] = typeof(RoomCheckedAsOk),
+            ["roomDamageReported"] = typeof(RoomDamageReported),
+            ["roomCleaningRequested"] = typeof(RoomCleaningRequested),
+            ["guestCheckedOut"] = typeof(GuestCheckedOut),
         };
         
         private static readonly IDictionary<Type, string> MappingEventTypeToKey = MappingKeyToEventType.ToDictionary(x => x.Value, x => x.Key);
