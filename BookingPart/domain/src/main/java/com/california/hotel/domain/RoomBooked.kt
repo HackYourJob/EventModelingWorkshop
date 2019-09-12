@@ -1,38 +1,15 @@
-package com.california.hotel.domain;
+package com.california.hotel.domain
 
-import java.time.Instant;
-import java.util.Objects;
+import java.time.Instant
 
-public class RoomBooked implements DomainEvent {
-	public final String bookingId;
-	public final Instant timestamp;
+data class RoomBooked(val bookingId: String? = null, val timestamp: Instant = Instant.now()) : DomainEvent {
 
-	public RoomBooked(String bookingId, Instant timestamp) {
-		this.bookingId = bookingId;
-		this.timestamp = timestamp;
-    }
-
-	@Override
-	public Instant timestamp() {
-		return timestamp;
+	override fun timestamp(): Instant {
+		return timestamp
 	}
 
-	@Override
-	public String type() {
-		return "room-booked";
+	override fun type(): String {
+		return "room-booked"
 	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-		RoomBooked that = (RoomBooked) o;
-        return bookingId == that.bookingId &&
-                timestamp.equals(that.timestamp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(timestamp);
-    }
 }

@@ -1,38 +1,15 @@
-package com.california.hotel.domain;
+package com.california.hotel.domain
 
-import java.time.Instant;
-import java.util.Objects;
+import java.time.Instant
 
-public class PaymentSucceed implements DomainEvent {
-	public final String bookingId;
-	public final Instant timestamp;
+class PaymentSucceed(val bookingId: String? = null, val timestamp: Instant = Instant.now()) : DomainEvent {
 
-	public PaymentSucceed(String bookingId, Instant timestamp) {
-		this.bookingId = bookingId;
-		this.timestamp = timestamp;
-    }
-
-	@Override
-	public Instant timestamp() {
-		return timestamp;
+	override fun timestamp(): Instant {
+		return timestamp
 	}
 
-	@Override
-	public String type() {
-		return "payment-succeed";
+	override fun type(): String {
+		return "payment-succeed"
 	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-		PaymentSucceed that = (PaymentSucceed) o;
-        return bookingId == that.bookingId &&
-                timestamp.equals(that.timestamp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(timestamp);
-    }
 }

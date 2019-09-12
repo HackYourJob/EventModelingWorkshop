@@ -22,13 +22,13 @@ public class BookRoomCommandHandlerTest {
     public void shouldEmitAPaymentRequiredEventWhenBookingARoom() {
         Clock clock = Clock.fixed(Instant.EPOCH, ZoneId.systemDefault());
         BookRoomCommandHandler systemUnderTest = new BookRoomCommandHandler(clock);
-        String guestId = UUID.randomUUID().toString();
+		String bookingId = UUID.randomUUID().toString();
         LocalDate startDate = LocalDate.of(2019, 9, 10);
         LocalDate endDate = LocalDate.of(2019, 9, 11);
         String roomType = "twin";
         int amount = 300;
-        BookRoomCommand command = new BookRoomCommand(guestId, startDate, endDate, roomType, amount);
-        List<DomainEvent> expected = Collections.singletonList(new PaymentRequired(UUID.randomUUID().toString(), clock.instant(), guestId, startDate, endDate, amount, roomType));
+		BookRoomCommand command = new BookRoomCommand(bookingId, startDate, endDate, roomType, amount);
+		List<DomainEvent> expected = Collections.singletonList(new PaymentRequired(bookingId, clock.instant(), startDate, endDate, amount, roomType));
         List<DomainEvent> events = systemUnderTest.apply(command);
         assertThat(events).containsExactlyElementsOf(expected);
     }

@@ -2,7 +2,6 @@ package com.california.hotel.domain;
 
 import java.time.Clock;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -16,8 +15,8 @@ public class PayCommandHandler
 
     public List<DomainEvent> apply(PayCommand command) {
         List<DomainEvent> events = new ArrayList<>();
-        events.add(new PaymentSucceed(command.bookingId, clock.instant()));
-        events.add(new RoomBooked(command.bookingId, clock.instant()));
+		events.add(new PaymentSucceed(command.getBookingId(), clock.instant()));
+		events.add(new RoomBooked(command.getBookingId(), clock.instant()));
         return events;
     }
 }

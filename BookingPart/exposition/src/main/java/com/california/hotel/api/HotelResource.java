@@ -35,10 +35,10 @@ public class HotelResource {
 	}
 
 	@ApiOperation(value = "Payment information")
-	@GetMapping(value = {"/payment/details/{guestId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PaymentDetails> paymentDetails(@PathVariable("guestId") String guestId) {
+	@GetMapping(value = {"/payment/details/{bookingId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PaymentDetails> paymentDetails(@PathVariable("bookingId") String bookingId) {
 		List<DomainEvent> domainEvents = eventRepository.domainEvents();
-		Optional<PaymentDetails> paymentRequired = this.eventHandler(domainEvents, guestId);
+		Optional<PaymentDetails> paymentRequired = this.eventHandler(domainEvents, bookingId);
 		return paymentRequired
 			.map(paymentDetails -> new ResponseEntity<>(paymentDetails, HttpStatus.OK))
 			.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -51,7 +51,7 @@ public class HotelResource {
 				.forEach(eventRepository::persistEvent);
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "Availability")
 	@GetMapping(value = {"/availability"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Set<LocalDate>>> availability() {
@@ -59,13 +59,13 @@ public class HotelResource {
 		return new ResponseEntity<>(availability.innerMap, HttpStatus.OK);
 	}
 
-	private Optional<PaymentDetails> eventHandler(List<DomainEvent> events, String guestId) {
+	private Optional<PaymentDetails> eventHandler(List<DomainEvent> events, String bookingId) {
 		return events.stream()
 			.filter(x -> x instanceof PaymentRequired)
 			.map(x -> (PaymentRequired) x)
-			.filter(x -> x.guestId.equals(guestId))
+			.filter(x -> x.getBookingId().equals(bookingId))
 			.sorted(Comparator.comparing(PaymentRequired::timestamp).reversed())
-			.map(x -> new PaymentDetails(x.bookingId, x.amount))
+			.map(x -> new PaymentDetails(x.getBookingId(), x.getAmount()))
 			.findFirst();
 	}
 
