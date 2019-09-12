@@ -61,10 +61,10 @@ public class HotelResource {
 
 	private Optional<PaymentDetails> eventHandler(List<DomainEvent> events, String bookingId) {
 		return events.stream()
-			.filter(x -> x instanceof PaymentRequired)
-			.map(x -> (PaymentRequired) x)
+			.filter(x -> x instanceof DomainEvent.PaymentRequired)
+			.map(x -> (DomainEvent.PaymentRequired) x)
 			.filter(x -> x.getBookingId().equals(bookingId))
-			.sorted(Comparator.comparing(PaymentRequired::timestamp).reversed())
+			.sorted(Comparator.comparing(DomainEvent.PaymentRequired::getTimestamp).reversed())
 			.map(x -> new PaymentDetails(x.getBookingId(), x.getAmount()))
 			.findFirst();
 	}

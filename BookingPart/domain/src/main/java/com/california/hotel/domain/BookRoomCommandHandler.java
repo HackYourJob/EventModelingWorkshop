@@ -14,6 +14,13 @@ public class BookRoomCommandHandler
     }
 
     public List<DomainEvent> apply(BookRoomCommand command) {
-		return Collections.singletonList(new PaymentRequired(command.getBookingId(), clock.instant(), command.getStartDate(), command.getEndDate(), command.getAmount(), command.getRoomType()));
+		return Collections.singletonList(new DomainEvent.PaymentRequired(
+			command.getBookingId(),
+			command.getStartDate(),
+			command.getEndDate(),
+			command.getAmount(),
+			command.getRoomType(),
+			clock.instant()
+		));
     }
 }

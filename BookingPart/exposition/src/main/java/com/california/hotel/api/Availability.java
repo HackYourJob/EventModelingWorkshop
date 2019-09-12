@@ -1,7 +1,6 @@
 package com.california.hotel.api;
 
 import com.california.hotel.domain.DomainEvent;
-import com.california.hotel.domain.RoomMadeAvailable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -42,8 +41,8 @@ public class Availability {
     }
 
     public Availability handle(DomainEvent event) {
-        if(event instanceof RoomMadeAvailable) {
-            return this.setAvailableAt(((RoomMadeAvailable) event).getRoomType(), ((RoomMadeAvailable) event).getTimestamp().atZone(ZoneId.systemDefault()).toLocalDate());
+		if (event instanceof DomainEvent.RoomMadeAvailable) {
+			return this.setAvailableAt(((DomainEvent.RoomMadeAvailable) event).getRoomType(), event.getTimestamp().atZone(ZoneId.systemDefault()).toLocalDate());
         }
         else {
             return this;

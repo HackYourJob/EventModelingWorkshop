@@ -1,8 +1,6 @@
 package com.california.hotel.infrastrucutre.repository;
 
 import com.california.hotel.domain.DomainEvent;
-import com.california.hotel.domain.PaymentRequired;
-import com.california.hotel.domain.RoomMadeAvailable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +28,7 @@ public class EventRepository {
 
 	public void persistEvent(DomainEvent event) {
 		try {
-			objectMapper.writeValue(new File(eventsFolder + "/" + event.timestamp().toEpochMilli() + "-" + event.type() + ".json"), event);
+			objectMapper.writeValue(new File(eventsFolder + "/" + event.getTimestamp().toEpochMilli() + "-" + event.getType() + ".json"), event);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,10 +45,10 @@ public class EventRepository {
 	private DomainEvent fileNameToDomainEvent(String fileName) {
 		try {
 			if (fileName.endsWith("payment-required.json")) {
-				return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), PaymentRequired.class);
+				return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), DomainEvent.PaymentRequired.class);
 			}
 			else if (fileName.endsWith("room-made-available.json")) {
-				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), RoomMadeAvailable.class);
+				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), DomainEvent.RoomMadeAvailable.class);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

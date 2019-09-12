@@ -15,8 +15,8 @@ public class PayCommandHandler
 
     public List<DomainEvent> apply(PayCommand command) {
         List<DomainEvent> events = new ArrayList<>();
-		events.add(new PaymentSucceed(command.getBookingId(), clock.instant()));
-		events.add(new RoomBooked(command.getBookingId(), clock.instant()));
+		events.add(new DomainEvent.PaymentSucceed(command.getBookingId(), clock.instant()));
+		events.add(new DomainEvent.RoomBooked(command.getBookingId(), clock.instant()));
         return events;
     }
 }

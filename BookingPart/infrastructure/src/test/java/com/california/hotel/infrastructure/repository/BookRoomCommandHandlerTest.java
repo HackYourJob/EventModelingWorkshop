@@ -3,7 +3,6 @@ package com.california.hotel.infrastructure.repository;
 import com.california.hotel.domain.BookRoomCommand;
 import com.california.hotel.domain.BookRoomCommandHandler;
 import com.california.hotel.domain.DomainEvent;
-import com.california.hotel.domain.PaymentRequired;
 import org.junit.Test;
 
 import java.time.Clock;
@@ -28,7 +27,14 @@ public class BookRoomCommandHandlerTest {
         String roomType = "twin";
         int amount = 300;
 		BookRoomCommand command = new BookRoomCommand(bookingId, startDate, endDate, roomType, amount);
-		List<DomainEvent> expected = Collections.singletonList(new PaymentRequired(bookingId, clock.instant(), startDate, endDate, amount, roomType));
+		List<DomainEvent> expected = Collections.singletonList(new DomainEvent.PaymentRequired(
+			bookingId,
+			startDate,
+			endDate,
+			amount,
+			roomType,
+			clock.instant()
+		));
         List<DomainEvent> events = systemUnderTest.apply(command);
         assertThat(events).containsExactlyElementsOf(expected);
     }
