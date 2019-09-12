@@ -10,6 +10,12 @@ services:
             - ./traefik.toml:/traefik.toml
         networks:
           - web
+    eventstore:
+        image: eventstore/eventstore:latest
+        ports:
+            - "2113:2113"
+        networks:
+          - web
     booking-front:
         build: ./booking-front
         labels:
