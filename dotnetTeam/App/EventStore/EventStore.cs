@@ -44,8 +44,8 @@ namespace App.EventStore
 
         private long ToMsUnixTimeStamp(DateTime horodate)
         {
-            var _1970 = new DateTime(1970, 1 ,1);
-            return (long) horodate.Subtract(_1970).TotalMilliseconds;
+            var unixOriginDate = new DateTime(1970, 1 ,1);
+            return (long) horodate.Subtract(unixOriginDate).TotalMilliseconds;
         }
 
         public Task<IDomainEvent[]> GetAggregateHistory()
@@ -53,18 +53,23 @@ namespace App.EventStore
             const string eventFilePattern = "(\\d+)\\-(.*).json";
             var readFiles = Directory.EnumerateFiles(_directory)
                 .Where(filePath => Regex.IsMatch(filePath, eventFilePattern))
-                .Select(async filePath =>
+                .Select(filePath =>
                 {
                     var match = Regex.Match(Path.GetFileName(filePath), eventFilePattern);
-                    if (MappingKeyToEventType.TryGetValue(match.Groups[2].Value, out var eventType))
-                    {
-                        var payload = await File.ReadAllTextAsync(filePath);
-                        return (IDomainEvent) JsonConvert.DeserializeObject(payload, eventType);
-                    }
-
-                    return null;
+                    var horodate = long.Parse(match.Groups[1].Value);
+                    var eventType = match.Groups[2].Value;
+                    if (MappingKeyToEventType.ContainsKey(eventType))
+                        return (horodate: horodate, filePath: filePath, eventType: eventType);
+                    return (horodate: horodate, filePath: filePath, eventType: null);
                 })
-                .Where(evt => evt != null);
+                .Where(t => !string.IsNullOrEmpty(t.eventType))
+                .OrderBy(t => t.horodate)
+                .Select(async t =>
+                {
+                    var payload = await File.ReadAllTextAsync(t.filePath);
+                    var domainEvent = (IDomainEvent)JsonConvert.DeserializeObject(payload, MappingKeyToEventType[t.eventType]);
+                    return domainEvent;
+                });
 
             return Task.WhenAll(readFiles);
         }
