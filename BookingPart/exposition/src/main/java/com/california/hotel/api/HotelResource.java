@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.Comparator;
@@ -44,6 +43,15 @@ public class HotelResource {
 			.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+
+	@ApiOperation(value = "Pay")
+	@PostMapping(value = {"/payment/pay"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> pay(@RequestBody PayCommand command) {
+		new PayCommandHandler(Clock.system(ZoneId.systemDefault())).apply(command)
+				.forEach(eventRepository::persistEvent);
+		return new ResponseEntity<>("OK", HttpStatus.OK);
+	}
+	
 	private Optional<PaymentDetails> eventHandler(List<DomainEvent> events, String guestId) {
 		return events.stream()
 			.filter(x -> x instanceof PaymentRequired)
