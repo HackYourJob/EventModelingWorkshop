@@ -36,7 +36,7 @@ namespace App
 
 	        services.AddTransient<IEventsPublisher, EventsPublisher>();
 //	        services.AddTransient<IEventStore, EventStore.EventStoreFileSystem>(provider => new EventStore.EventStoreFileSystem(Environment.GetEnvironmentVariable("WORKSHOP_EVENTSTORE_DIRECTORY") ?? Path.Combine(Directory.GetCurrentDirectory(), "DATA")));
-	        services.AddTransient<IEventStore, EventStoreDb>(provider => new EventStoreDb(Environment.GetEnvironmentVariable("WORKSHOP_EVENTSTORE_IP") ?? "127.0.0.1"));
+	        services.AddTransient<IEventStore, EventStoreDb>(provider => new EventStoreDb(Environment.GetEnvironmentVariable("WORKSHOP_EVENTSTORE") ?? "127.0.0.1"));
 	        services.AddTransient<IRoomRepository, RoomRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
