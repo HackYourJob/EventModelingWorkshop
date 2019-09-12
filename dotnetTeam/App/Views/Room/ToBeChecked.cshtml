@@ -1,5 +1,4 @@
-﻿@page
-@model object
+﻿@model App.Controller.ToBeCheckedModel
 
 @{
     ViewBag.Title = "title";
@@ -8,7 +7,11 @@
 
 <h2>Rooms to be checked</h2>
 <ul>
-    <li>room 1 <button class="btn btn-primary" onclick="location.href = '/room/checking/1'">Start Checking</button> <button class="btn btn-warning" onclick="location.href = '/room/checkoutguest/1'">Checkout Guest</button> </li>
-    <li>room 2 <button class="btn btn-primary" onclick="location.href = '/room/checking/2'">Start Checking</button> <button class="btn btn-warning" onclick="location.href = '/room/checkoutguest/2'">Checkout Guest</button> </li>
-    <li>room 3 <button class="btn btn-primary" onclick="location.href = '/room/checking/3'">Start Checking</button> <button class="btn btn-warning" onclick="location.href = '/room/checkoutguest/3'">Checkout Guest</button> </li>
+
+    @{
+        foreach (var roomId in Model.NotCheckedRoomIds) {
+            <li>room @roomId.Value <a class="btn btn-primary" href="/room/checking/@roomId.Value">Start Checking</a> </li>
+        }
+    }
+
 </ul>

@@ -1,7 +1,7 @@
 namespace Domain
 {
-    public struct RoomDamageReported : IDomainEvent
-    {
+    public struct RoomDamageReported : IDomainEvent, IRoomDomainEvent
+	{
         public RoomId RoomId { get; }
         public string DamageDescription { get; }
 

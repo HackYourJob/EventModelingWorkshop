@@ -1,0 +1,17 @@
+@model Domain.RoomId[]
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Rooms to be cleaned</h2>
+<ul>
+
+    @{
+        foreach (var roomId in Model) {
+            <li>room @roomId.Value <a class="btn btn-primary" href="/room/cleaning/@roomId.Value">Start Cleaning</a> </li>
+        }
+    }
+
+</ul>

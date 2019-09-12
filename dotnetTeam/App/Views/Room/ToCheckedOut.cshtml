@@ -1,0 +1,17 @@
+﻿@model Domain.RoomId[]
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Rooms to be checked out</h2>
+<ul>
+
+    @{
+        foreach (var roomId in Model) {
+            <li>room @roomId.Value <a class="btn btn-primary" href="/room/checkout/@roomId.Value">Checkout</a> </li>
+        }
+    }
+
+</ul>

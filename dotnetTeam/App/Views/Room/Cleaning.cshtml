@@ -1,0 +1,17 @@
+@using Domain
+@model RoomId
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Cleaning room number @Model.Value</h2>
+
+<a class="btn btn-success" href="/room/cleandone/@Model.Value">Done</a>
+
+<form action="/room/reportdamage/@Model.Value" method="post">
+    <input name="description" />
+    <button class="btn btn-danger" type="submit">Report damage</button>
+</form>
+

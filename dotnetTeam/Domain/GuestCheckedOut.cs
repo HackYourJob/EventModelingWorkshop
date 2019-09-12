@@ -1,6 +1,6 @@
 namespace Domain
 {
-    public struct GuestCheckedOut : IDomainEvent
+    public struct GuestCheckedOut : IDomainEvent, IRoomDomainEvent
     {
         public RoomId RoomId { get; }
 
@@ -9,4 +9,9 @@ namespace Domain
             RoomId = roomId;
         }
     }
+
+	public interface IRoomDomainEvent
+	{
+		RoomId RoomId { get ; }
+	}
 }
