@@ -48,6 +48,9 @@ public class EventRepository {
 			if (fileName.endsWith("payment-required.json")) {
 				return objectMapper.readValue(new File(eventsFolder + File.separator + fileName), PaymentRequired.class);
 			}
+			else if (fileName.endsWith("room-made-available.json")) {
+				return objectMapper.readValue(new File(eventsFolder + File.pathSeparator + fileName), RoomMadeAvailable.class);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

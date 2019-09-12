@@ -10,19 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api")
 public class HotelResource {
 
 	private final EventRepository eventRepository;
+	private final AvailabilityRepository availabilityRepository;
 
-	public HotelResource(EventRepository eventRepository) {
+	public HotelResource(EventRepository eventRepository, AvailabilityRepository availabilityRepository) {
 		this.eventRepository = eventRepository;
+		this.availabilityRepository = availabilityRepository;
 	}
 
 	@ApiOperation(value = "Book a room")
@@ -43,7 +44,6 @@ public class HotelResource {
 			.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-
 	@ApiOperation(value = "Pay")
 	@PostMapping(value = {"/payment/pay"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> pay(@RequestBody PayCommand command) {
@@ -52,6 +52,13 @@ public class HotelResource {
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Availability")
+	@GetMapping(value = {"/availability"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Set<LocalDate>>> availability() {
+	    Availability availability = availabilityRepository.getAvailability();
+		return new ResponseEntity<>(availability.innerMap, HttpStatus.OK);
+	}
+
 	private Optional<PaymentDetails> eventHandler(List<DomainEvent> events, String guestId) {
 		return events.stream()
 			.filter(x -> x instanceof PaymentRequired)
