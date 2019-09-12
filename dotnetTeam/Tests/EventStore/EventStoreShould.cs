@@ -27,7 +27,7 @@ namespace Tests.EventStore
         [Fact]
         public async Task PersistEventsInFiles()
         {
-            var fileName = "1568218500000-room-checked-as-ok.json";
+            var fileName = "1568218500000-roomCheckedAsOk.json";
             Check.That(File.Exists(fileName)).IsFalse();
             
             var eventStore = CreateEventStore();
