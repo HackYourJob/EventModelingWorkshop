@@ -62,8 +62,11 @@ namespace Tests.EventStore
             var domainEvent5 = new RoomCheckedIn(new RoomId("anyway"));
             await CreateEventStore(Horodate.AddSeconds(5)).Append(domainEvent5);
 
+            var domainEvent6 = new RoomCheckedIn(new RoomId("anyway"));
+            await CreateEventStore(Horodate.AddSeconds(6)).Append(domainEvent6);
+
             var history = await CreateEventStore().GetAggregateHistory();
-            Check.That(history).ContainsExactly(domainEvent4, domainEvent3, domainEvent1, domainEvent2, domainEvent5);
+            Check.That(history).ContainsExactly(domainEvent4, domainEvent3, domainEvent1, domainEvent2, domainEvent5, domainEvent6);
         }
 
         private App.EventStore.EventStore CreateEventStore(DateTime? horodate = null)

@@ -8,7 +8,7 @@
 
 <h2>Checking room number @Model.RoomId</h2>
 
-<button class="btn btn-success" onclick="location.href='/room/checkingdone/@Model.RoomId'">Done</button>
+<a class="btn btn-success" href="/room/checkingdone/@Model.RoomId">Done</a>
 
 <form action="/room/reportdamage/@Model.RoomId" method="post">
     <input name="description" />

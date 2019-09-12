@@ -88,6 +88,26 @@ namespace App.Controller
 			_publisher.Publish(new RoomCleaningRequested(new RoomId(roomId)));
 			return RedirectToAction(nameof(ToClean));
 		}
+		
+		[Route("[controller]/dirtyrooms")]
+		public async Task<ActionResult> DirtyRooms() 
+		{
+			return View(await _roomRepository.GetDirtyRoomIds());
+		}
+
+		[Route("[controller]/cleaning/{roomId}")]
+		public ActionResult Cleaning(string roomId)
+		{
+			return View(new RoomId(roomId));
+		}
+
+		[Route("[controller]/cleandone/{roomId}")]
+		public ActionResult CleanDone(string roomId)
+		{
+			_publisher.Publish(new RoomCleaned(new RoomId(roomId)));
+			return RedirectToAction(nameof(DirtyRooms));
+		}
+
 	}
 
     public class CheckingModel
