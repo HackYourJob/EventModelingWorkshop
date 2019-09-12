@@ -17,7 +17,6 @@ namespace App.EventStore
         private static IEventStoreConnection _connection;
         private static UserCredentials _userCredentials;
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        private bool _connected;
 
         public EventStoreDb(string storeAddress, string login, string password)
         {
@@ -32,26 +31,13 @@ namespace App.EventStore
                 settings,
                 new Uri($"tcp://{storeAddress}:1113"));
 
-            _connection.Connected += OnConnected;
-            _connection.Disconnected += OnDisconnected;
-            _connection.ConnectAsync();
-        }
-
-        private void OnConnected(object sender, ClientConnectionEventArgs e)
-        {
-            _connected = true;
-        }
-
-        private void OnDisconnected(object sender, ClientConnectionEventArgs e)
-        {
-            _connected = false;
+            _connection.ConnectAsync().Wait();
         }
 
         public async Task Append(IDomainEvent domainEvent)
         {
             var json = JsonConvert.SerializeObject(domainEvent, SerializerSettings);
-            var bytes = Encoding.UTF8.GetBytes(
-                json);
+            var bytes = Encoding.UTF8.GetBytes(json);
             var eventData = new EventData(
                 Guid.NewGuid(),
                 MappingEventTypeToKey[domainEvent.GetType()],
@@ -67,18 +53,17 @@ namespace App.EventStore
 
         public async Task<IDomainEvent[]> GetAggregateHistory()
         {
-            var allevents = await _connection.ReadAllEventsBackwardAsync(Position.End, 4096, false, _userCredentials);
-            return allevents.Events.Where(e => MappingKeyToEventType .ContainsKey(e.Event.EventType)).Select(ToDomainEvent).ToArray();
+            var allEvents = await _connection.ReadAllEventsBackwardAsync(Position.End, 4096, false, _userCredentials);
+            return allEvents.Events.Where(e => MappingKeyToEventType .ContainsKey(e.Event.EventType)).Select(ToDomainEvent).ToArray();
         }
 
-        private IDomainEvent ToDomainEvent(ResolvedEvent e)
+        private static IDomainEvent ToDomainEvent(ResolvedEvent e)
         {
             var payload = Encoding.UTF8.GetString(e.Event.Data);
-            var domainEvent = (IDomainEvent)JsonConvert.DeserializeObject(payload, MappingKeyToEventType[e.Event.EventType]);
-            return domainEvent;
+            return (IDomainEvent)JsonConvert.DeserializeObject(payload, MappingKeyToEventType[e.Event.EventType]);
         }
         
-        private static readonly IDictionary<string, Type> MappingKeyToEventType = new Dictionary<string, Type>()
+        private static readonly IDictionary<string, Type> MappingKeyToEventType = new Dictionary<string, Type>
         {
             ["roomCheckedAsOk"] = typeof(RoomCheckedAsOk),
             ["roomDamageReported"] = typeof(RoomDamageReported),
